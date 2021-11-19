@@ -9,11 +9,10 @@ class RestaurantMarkerBody extends StatelessWidget {
   final Restaurant restaurant;
   final BitmapDescriptor image;
   final Function(Restaurant) onTap;
-  RestaurantMarkerBody({@required this.onTap, this.restaurant, this.image});
-
-  GoogleMapController controller;
-
+  GoogleMapController? controller;
   List<Marker> _markers = [];
+
+  RestaurantMarkerBody({required this.onTap, required this.restaurant, required this.image});
 
   void _onMapCreated(GoogleMapController controller) {
     this.controller = controller;
@@ -55,7 +54,7 @@ class RestaurantMarkerBody extends StatelessWidget {
           }),
     );
     if (controller != null) {
-      controller.showMarkerInfoWindow(marker.markerId);
+      controller!.showMarkerInfoWindow(marker.markerId);
     }
     if (!_markers.contains(marker)) {
       _markers.add(marker);
