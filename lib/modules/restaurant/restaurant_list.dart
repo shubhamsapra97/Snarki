@@ -123,10 +123,9 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
       onModelReady: (model) async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         userLocation = jsonDecode(prefs.getString('location')!);
-        print(userLocation);
 
         bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-        var name = isIOS ? 'restaurant_marker_view_ios' : 'restaurant_marker_view';
+        var name = isIOS ? 'restaurant_list_view_ios' : 'restaurant_list_view';
         FirebaseAnalytics().logEvent(
           name: name,
           parameters: <String, String>{
@@ -136,20 +135,6 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
         );
 
         await model.fetchRestaurantsList(widget.cusineTag);
-
-        // SharedPreferences prefs = await SharedPreferences.getInstance();
-        // var userLocation = jsonDecode(prefs.getString('location')!);
-
-        // for(var i = 0; i < model.restaurants.length; i++) {
-        //   model.restaurants[i].distance = calculateDistance(
-        //     userLocation['lat'],
-        //     userLocation['lng'],
-        //     model.restaurants[i].location.coordinates[1],
-        //     model.restaurants[i].location.coordinates[0],
-        //   );
-        // }
-        // print("/n/n/n Restuarants iupdated");
-        // print(updatedRestaurants);
       },
       builder: (context, model, child) => WillPopScope(
         onWillPop: _onBackPress,
