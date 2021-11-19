@@ -1,0 +1,82 @@
+{
+  "project_info": {
+    "project_number": "933378626374",
+    "project_id": "snarki-4f4d9",
+    "storage_bucket": "snarki-4f4d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933378626374:android:9d8293d83872a1964e8b47",
+        "android_client_info": {
+          "package_name": "com.snarkiApp.snarkiApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "933378626374-1iqroc6lea8a56kje2n2r1phfrmcptq3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwx7IX2qpfjFDgV6VYpdx0audm2N5xYIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933378626374-1iqroc6lea8a56kje2n2r1phfrmcptq3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "933378626374-1l9tea4isfgta43gs7foi43m6epatkk1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.snarki.snarki"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:933378626374:android:ec773aadbc72fec24e8b47",
+        "android_client_info": {
+          "package_name": "com.snarkiApp.snarkiApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "933378626374-1iqroc6lea8a56kje2n2r1phfrmcptq3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwx7IX2qpfjFDgV6VYpdx0audm2N5xYIQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "933378626374-1iqroc6lea8a56kje2n2r1phfrmcptq3.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "933378626374-1l9tea4isfgta43gs7foi43m6epatkk1.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.snarki.snarki"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
