@@ -41,7 +41,6 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
   }
 
   Widget makeCard(Restaurant restaurant, userLocation) {
-    print('USERLOCATION $userLocation');
     final Distance distance = Distance();
     return Card(
       elevation: 6.0,

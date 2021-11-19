@@ -5,7 +5,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 class FormCard extends StatelessWidget {
   final List<Widget> widgets;
 
-  const FormCard({Key key, this.widgets}) : super(key: key);
+  const FormCard({Key? key, this.widgets = const []}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return ResponsiveBuilder(
