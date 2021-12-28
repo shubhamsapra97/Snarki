@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:client/modules/restaurants_search/restaurants_map_view_model.dart';
 import 'package:client/injection.dart';
 import 'package:latlong/latlong.dart';
+import 'package:shimmer/shimmer.dart';
 
 class RestaurantsListView extends StatefulWidget {
   final List<String> cusineTag;
@@ -40,7 +41,55 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
     return 12742 * 0.621371 * asin(sqrt(a));
   }
 
-  Widget makeCard(Restaurant restaurant, userLocation) {
+  Widget makeCard({restaurant, userLocation, isLoading: false}) {
+
+    if (isLoading) {
+      return Card(
+        elevation: 6.0,
+        margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+        child: Container(
+          child: ListTile(
+              contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
+              leading: Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: Container(
+                  height: 60.0,
+                  width: 60.0,
+                  color: Colors.grey[300],
+                )
+              ),
+              title: Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Container(
+                    height: 20.0,
+                    color: Colors.grey[300],
+                    margin: const EdgeInsets.only(bottom: 10.0),
+                  )
+              ),
+              subtitle: Shimmer.fromColors(
+                  baseColor: Colors.grey[300]!,
+                  highlightColor: Colors.grey[100]!,
+                  child: Container(
+                    height: 20.0,
+                    color: Colors.grey[300],
+                  ),
+              ),
+              trailing: Shimmer.fromColors(
+                baseColor: Colors.grey[300]!,
+                highlightColor: Colors.grey[100]!,
+                child: Container(
+                  height: 24,
+                  width: 24,
+                  color: Colors.grey[300],
+                ),
+              ),
+          ),
+        ),
+      );
+    }
+
     final Distance distance = Distance();
     return Card(
       elevation: 6.0,
@@ -193,14 +242,27 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
           ),
           drawer: DrawerCustom(),
           body: model.isBusy
-              ? Center(child: CircularProgressIndicator())
-              : model.restaurants.length > 0 ? Container(
+              ? ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: 6,
+                itemBuilder: (BuildContext context, int index) {
+                  return makeCard(
+                      restaurant: null,
+                      userLocation: null,
+                      isLoading: model.isBusy
+                  );
+                },
+              ) : model.restaurants.length > 0 ? Container(
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
                   itemCount: model.restaurants.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return makeCard(model.restaurants[index], userLocation);
+                    return makeCard(
+                        restaurant: model.restaurants[index],
+                        userLocation: userLocation
+                    );
                   },
                 ),
               ) : Center(
