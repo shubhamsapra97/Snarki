@@ -185,9 +185,12 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
 
         await model.fetchRestaurantsList(widget.cusineTag);
 
-        ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        var snackBar = SnackBar(content: Text('The Restaurant Distance is the exact difference between the 2 location coordinates. Traffic, shortest route and other geographical properties are not considered. Click on Arrow Icon for exact details.'));
-        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        if (model.restaurants.length > 0) {
+          ScaffoldMessenger.of(context).hideCurrentSnackBar();
+          var snackBar = SnackBar(content: Text(
+              'The Restaurant Distance is the exact difference between the 2 location coordinates. Traffic, shortest route and other geographical properties are not considered. Click on Arrow Icon for exact details.'));
+          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+        }
       },
       builder: (context, model, child) => WillPopScope(
         onWillPop: _onBackPress,
