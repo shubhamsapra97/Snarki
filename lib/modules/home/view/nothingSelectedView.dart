@@ -1,5 +1,4 @@
 import 'package:client/core/shared_widgets/button.dart';
-import 'package:client/core/shared_widgets/rounded_card.dart';
 import 'package:client/core/utils/appTheme.dart';
 import 'package:flutter/material.dart';
 

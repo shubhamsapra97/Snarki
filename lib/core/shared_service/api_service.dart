@@ -64,38 +64,4 @@ class ApiRepository {
 
     return ApiResult.failure(error: NetworkExceptions.getDioException('DioClient cannot be null'));
   }
-
-  // Future<ApiResult<SearchResults>> fetchRestaurantsByCuisine(
-  //     String cuisineTag) async {
-  //   try {
-  //     final response = await dioClient.get("/restaurants/search/fields",
-  //         queryParameters: {
-  //           "fields": "{\"cuisines\":\"$cuisineTag\"}"
-  //         }, // replace with map for list of cuisine tag selection
-  //         options: Options(headers: {
-  //           "x-rapidapi-key":
-  //               "0b342aea6bmsh2414e07a004baefp187319jsn0f7226d4c1bd",
-  //           "x-rapidapi-host": "us-restaurant-menus.p.rapidapi.com",
-  //           "useQueryString": true,
-  //         }));
-  //     SearchResults searchResults = SearchResults.fromJson(response["result"]);
-  //     return ApiResult.success(data: searchResults);
-  //   } catch (e) {
-  //     return ApiResult.failure(error: NetworkExceptions.getDioException(e));
-  //   }
-  // }
-
-  // Future<ApiResult<RestaurantDetails>> fetchById(String id) async {
-  //   try {
-  //     final response = await dioClient.get("/place/details/json", queryParameters: {
-  //       "place_id": id,
-  //       "fields": "formatted_address,reviews,formatted_phone_number",
-  //       "key": "" // REMOVE FROM HERE!!
-  //     });
-  //     RestaurantDetails restaurant = RestaurantDetails.fromJson(response["result"]);
-  //     return ApiResult.success(data: restaurant);
-  //   } catch (e) {
-  //     return ApiResult.failure(error: NetworkExceptions.getDioException(e));
-  //   }
-  // }
 }

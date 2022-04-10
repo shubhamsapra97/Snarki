@@ -12,7 +12,6 @@ export 'package:client/core/models/models.dart';
 export 'package:client/core/shared_service/user_service.dart';
 
 // shared services widgets
-// export './shared_widgets/rounded_card.dart';
 export 'package:client/core/shared_widgets/button.dart';
 export 'package:client/core/shared_widgets/app_bar.dart';
 export 'package:client/core/shared_widgets/text_field.dart';

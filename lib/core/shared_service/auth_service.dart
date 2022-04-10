@@ -1,13 +1,9 @@
 import 'package:client/injection.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/services.dart';
-// import 'package:google_sign_in/google_sign_in.dart';
 
 import 'package:client/core/core.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:client/injection.dart';
 
 @singleton
 class AuthService {
@@ -77,35 +73,6 @@ class AuthService {
       return null;
     }
   }
-
-  // Future signInWithGoogle() async {
-  //   try {
-  //     final GoogleSignInAccount googleUser = await _googleSignIn.signIn();
-  //     final GoogleSignInAuthentication googleAuth =
-  //         await googleUser.authentication;
-  //
-  //     final AuthCredential credential = GoogleAuthProvider.credential(
-  //       accessToken: googleAuth.accessToken,
-  //       idToken: googleAuth.idToken,
-  //     );
-  //     final authResult = await _auth.signInWithCredential(credential);
-  //
-  //     // Create nd Populate current user
-  //     await _userService.createUser(UserProfile(
-  //         email: authResult.user.email,
-  //         name: authResult.user.displayName,
-  //         photoUrl: authResult.user.photoURL));
-  //     await _populateCurrentUser(authResult.user);
-  //
-  //     print("User : " + authResult.user.displayName);
-  //     return authResult.user;
-  //   } on PlatformException {
-  //     return "Something went wrong. Try again";
-  //   } catch (e) {
-  //     print("Error : " + e.code);
-  //     return e.message;
-  //   }
-  // }
 
   Future checkUserLoginStatus() async {
     final firebaseUser = _auth.currentUser;
