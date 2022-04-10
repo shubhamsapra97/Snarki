@@ -18,7 +18,11 @@ class UserProfileView extends StatelessWidget {
         automaticallyImplyLeading: true,
         title: Text(
           "Profile",
-          style: TextStyle(color: AppTheme.primaryColorDark),
+          style: TextStyle(
+              fontSize: 25,
+              color: AppTheme.SnarkiTextColor,
+              fontWeight: FontWeight.bold
+          ),
         ),
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),

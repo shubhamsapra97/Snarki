@@ -20,8 +20,12 @@ class AppBarWidget extends StatelessWidget {
         appBar: buildAppBar(
             context: context,
             title: Text(
-              "Snarki",
-              style: TextStyle(color: AppTheme.primaryColorDark),
+              "S N A R K I",
+              style: TextStyle(
+                  fontSize: 25,
+                  color: AppTheme.SnarkiTextColor,
+                  fontWeight: FontWeight.bold
+              ),
             ),
             automaticallyImplyLeading: true,
             actions: [

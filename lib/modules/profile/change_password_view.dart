@@ -31,7 +31,11 @@ class ChangePassword extends HookWidget {
             context: context,
             title: Text(
               "Change Password",
-              style: TextStyle(color: AppTheme.primaryColorDark),
+              style: TextStyle(
+                  fontSize: 25,
+                  color: AppTheme.SnarkiTextColor,
+                  fontWeight: FontWeight.bold
+              ),
             ),
             leading: IconButton(
                 icon: Icon(Icons.arrow_back_ios),

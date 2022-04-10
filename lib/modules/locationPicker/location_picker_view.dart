@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:async';
+import 'package:client/core/core.dart';
 import 'package:flutter/material.dart';
-import 'package:client/core/models/models.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:map_picker/map_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -71,39 +71,56 @@ class _LocationPickerView extends State<LocationPickerView> {
                     bottom: 24,
                     left: 24,
                     right: 24,
-                    child: SizedBox(
-                      height: 50,
-                      child: TextButton(
-                        child: const Text(
-                          "Confirm your location",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontStyle: FontStyle.normal,
-                            color: Color(0xFFFFFFFF),
-                            fontSize: 19,
-                          ),
-                        ),
-                        onPressed: () async {
-                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                          Geo userLocation = Geo.fromJson({
-                            'lat': cameraPosition.target.latitude,
-                            'lng': cameraPosition.target.longitude
-                          });
-                          prefs.setString('location', jsonEncode(userLocation));
-                          Navigator.of(context).pushNamed('/home');
-                        },
-                        style: ButtonStyle(
-                          backgroundColor:
-                          MaterialStateProperty.all<Color>(const Color(0xFFA3080C)),
-                          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-                            RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(
+                          height: 50,
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          child: TextButton(
+                            child: const Text(
+                              "Confirm your location",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontStyle: FontStyle.normal,
+                                color: Color(0xFFFFFFFF),
+                                fontSize: 19,
+                              ),
+                            ),
+                            onPressed: () async {
+                              SharedPreferences prefs = await SharedPreferences.getInstance();
+                              Geo userLocation = Geo.fromJson({
+                                'lat': cameraPosition.target.latitude,
+                                'lng': cameraPosition.target.longitude
+                              });
+                              prefs.setString('location', jsonEncode(userLocation));
+                              Navigator.of(context).pushNamed('/home');
+                            },
+                            style: ButtonStyle(
+                              backgroundColor:
+                              MaterialStateProperty.all<Color>(const Color(0xFFA3080C)),
+                              shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                                RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                              ),
                             ),
                           ),
                         ),
-                      ),
+                        FloatingActionButton(
+                          tooltip: "Refetch Location",
+                          backgroundColor: AppTheme.primaryColorDark,
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) => this.widget));
+                          },
+                          child: Icon(Icons.my_location),
+                        ),
+                      ],
                     ),
-                  )
+                  ),
                 ],
               ),
             );

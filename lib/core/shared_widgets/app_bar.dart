@@ -15,7 +15,7 @@ PreferredSizeWidget buildAppBar({
     PreferredSizeWidget? bottom
 }) {
     return  PreferredSize(
-        preferredSize: const Size.fromHeight(60),
+        preferredSize: const Size.fromHeight(55),
         child: AppBar(
             elevation: elevation,
             backgroundColor: backgroundColor,

@@ -13,6 +13,7 @@ class AppTheme {
   static Color secondaryTextColor = HexColor("#5d5b6a");
 
   static Color borderColor = HexColor("#D3D3D3");
+  static Color SnarkiTextColor = HexColor("#CFB495");
 
   static TextTheme _buildTextTheme(TextTheme base) {
     var fontName = "Gilroy"; // define in asssets

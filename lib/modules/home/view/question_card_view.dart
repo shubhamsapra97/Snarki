@@ -37,8 +37,12 @@ class _QuestionCardViewState extends State<QuestionCardView>
       appBar: buildAppBar(
           context: context,
           title: Text(
-            "Snarki",
-            style: TextStyle(color: AppTheme.primaryColorDark),
+            "S N A R K I",
+            style: TextStyle(
+                fontSize: 25,
+                color: AppTheme.SnarkiTextColor,
+                fontWeight: FontWeight.bold
+            ),
           ),
           automaticallyImplyLeading: true,
           actions: [
@@ -61,7 +65,8 @@ class _QuestionCardViewState extends State<QuestionCardView>
                 width: double.infinity,
                 height: 0.5,
               ),
-              preferredSize: Size.fromHeight(1))),
+              preferredSize: Size.fromHeight(1))
+      ),
       drawer: DrawerCustom(),
       body: SingleChildScrollView(
         child: Column(

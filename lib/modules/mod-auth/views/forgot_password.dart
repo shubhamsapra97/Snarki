@@ -33,8 +33,12 @@ class ForgotPasswordView extends HookWidget {
           context: context,
           backgroundColor: Colors.transparent,
           title: Text(
-            'Recover password',
-            style: Theme.of(context).textTheme.subtitle1,
+            "Recover Password",
+            style: TextStyle(
+                fontSize: 25,
+                color: AppTheme.SnarkiTextColor,
+                fontWeight: FontWeight.bold
+            ),
           ),
           elevation: 0,
           automaticallyImplyLeading: true),
