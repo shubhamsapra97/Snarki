@@ -32,18 +32,9 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
     return Future<bool>.value(false);
   }
 
-  double calculateDistance(lat1, lon1, lat2, lon2){
-    var p = 0.017453292519943295;
-    var c = cos;
-    var a = 0.5 - c((lat2 - lat1) * p)/2 +
-        c(lat1 * p) * c(lat2 * p) *
-            (1 - c((lon2 - lon1) * p))/2;
-    return 12742 * 0.621371 * asin(sqrt(a));
-  }
-
   Widget makeCard({restaurant, userLocation, isLoading: false}) {
 
-    if (isLoading) {
+    if (isLoading || restaurant == null) {
       return Card(
         elevation: 6.0,
         margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
@@ -111,11 +102,7 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
               children: [
                 Icon(Icons.restaurant,color: Colors.white),
                 Text(
-                  userLocation != null ? '~ ' + (distance.as(
-                    LengthUnit.Kilometer,
-                    LatLng(userLocation['lat'], userLocation['lng']),
-                    LatLng(restaurant.location.coordinates[1], restaurant.location.coordinates[0]),
-                  ) * 0.62137).toStringAsFixed(1) + ' miles' : '',
+                  userLocation != null ? '~ ' + restaurant['distance'].toStringAsFixed(1) + ' miles' : '',
                     style: TextStyle(color: Colors.white, fontSize: 12)
                 )
               ],
@@ -125,10 +112,10 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
             // When the child is tapped, show a snackbar.
             onTap: () {
               ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              var snackBar = SnackBar(content: Text('Timing: ${restaurant.hours} \n\nContact: ${restaurant.contact}'));
+              var snackBar = SnackBar(content: Text('Timing: ${restaurant['hours']} \n\nContact: ${restaurant['contact']}'));
               ScaffoldMessenger.of(context).showSnackBar(snackBar);},
             child: Text(
-              restaurant.restaurantName,
+              restaurant['name'],
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
             ),
           ),
@@ -137,7 +124,7 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
               // Icon(Icons.linear_scale, color: Colors.yellowAccent),
               Flexible(
                   child: Text(
-                  '${restaurant.address}, ${restaurant.city}, ${restaurant.state}, ${restaurant.postalCode}',
+                  '${restaurant['address']}, ${restaurant['city']}, ${restaurant['state']}, ${restaurant['postalCode']}',
                   style: TextStyle(color: Colors.white, fontSize: 12)
               ))
             ],
@@ -165,6 +152,7 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
 @override
   Widget build(BuildContext context) {
     var userLocation = null;
+    var sortedRestaurants = [];
     bool isLoggedIn = getIt<AuthService>().currentUserDetails != null;
 
     return ViewModelBuilder<RestaurantsSearchViewModel>.reactive(
@@ -186,11 +174,19 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
         await model.fetchRestaurantsList(widget.cusineTag);
 
         if (model.restaurants.length > 0) {
-          ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          var snackBar = SnackBar(content: Text(
-              'The Restaurant Distance is the exact difference between the 2 location coordinates. Traffic, shortest route and other geographical properties are not considered. Click on Arrow Icon for exact details.'));
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
-        }
+          final Distance distance = Distance();
+          sortedRestaurants = model.restaurants.map((item) {
+            return {
+              ...item.toJson(),
+              'distance': (distance.as(
+                LengthUnit.Kilometer,
+                LatLng(userLocation['lat'], userLocation['lng']),
+                LatLng(item.location.coordinates[1], item.location.coordinates[0]),
+              ) * 0.62137)
+            };
+          }).toList();
+          sortedRestaurants.sort((a, b) => a['distance'].compareTo(b['distance']));
+        };
       },
       builder: (context, model, child) => WillPopScope(
         onWillPop: _onBackPress,
@@ -256,14 +252,14 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
                       isLoading: model.isBusy
                   );
                 },
-              ) : model.restaurants.length > 0 ? Container(
+              ) : sortedRestaurants.length > 0 ? Container(
                 child: ListView.builder(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  itemCount: model.restaurants.length,
+                  itemCount: sortedRestaurants.length,
                   itemBuilder: (BuildContext context, int index) {
                     return makeCard(
-                        restaurant: model.restaurants[index],
+                        restaurant: sortedRestaurants[index],
                         userLocation: userLocation
                     );
                   },
