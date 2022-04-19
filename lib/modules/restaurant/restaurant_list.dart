@@ -134,7 +134,7 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
             onPressed: () async {
               SharedPreferences prefs = await SharedPreferences.getInstance();
               var userLocation = jsonDecode(prefs.getString('location')!);
-              var url = 'https://www.google.com/maps/dir/?api=1&origin=${userLocation['lat']},${userLocation['lng']}&destination=${restaurant.location.coordinates[1]},${restaurant.location.coordinates[0]}';
+              var url = 'https://www.google.com/maps/dir/?api=1&origin=${userLocation['lat']},${userLocation['lng']}&destination=${restaurant['location'].coordinates[1]},${restaurant['location'].coordinates[0]}';
               try {
                 await launch(url);
               } catch(error) {
