@@ -67,9 +67,11 @@ class LoginView extends HookWidget {
                         onPressed: () {
                           Navigator.pop(context, true);
                         }),
-                    Text("Welcome Back!",
+                    Text("Welcome!",
                         style: Theme.of(context).textTheme.headline4?.copyWith(
-                            color: Color(0xfff5cdaa), fontWeight: FontWeight.bold))
+                            color: Color(0xfff5cdaa),
+                            fontWeight: FontWeight.bold
+                        ))
                   ],
               ),
               SizedBox(
