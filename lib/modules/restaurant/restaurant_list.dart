@@ -132,16 +132,16 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
           trailing: IconButton(
             icon: new Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
             onPressed: () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              var userLocation = jsonDecode(prefs.getString('location')!);
-              var url = 'https://www.google.com/maps/dir/?api=1&origin=${userLocation['lat']},${userLocation['lng']}&destination=${restaurant['location'].coordinates[1]},${restaurant['location'].coordinates[0]}';
-              try {
-                await launch(url);
-              } catch(error) {
-                ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                var snackBar = SnackBar(content: Text('Error while opening Google Maps.'));
-                ScaffoldMessenger.of(context).showSnackBar(snackBar);
-              }
+              Navigator.of(context).pushNamed(
+                  '/restaurantDirections',
+                  arguments: {
+                    'restaurant': restaurant,
+                    'userLatitude': userLocation['lat'],
+                    'userLongitude': userLocation['lng'],
+                    'restaurantLatitude': restaurant['location'].coordinates[1],
+                    'restaurantLongitude': restaurant['location'].coordinates[0]
+                  }
+              );
             },
           )
         ),
@@ -282,11 +282,14 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
                           SizedBox(
                             height: 10
                           ),
-                          Text(
-                            "Go for different cuisines or broaden the search radius in settings.",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          )
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                            child: Text(
+                              "Go for different cuisines or broaden the search radius in settings.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ),
                         ],
                     )
               ),

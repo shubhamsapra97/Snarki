@@ -13,6 +13,7 @@ import 'package:client/modules/spash/view/splash_screen.dart';
 import 'package:client/modules/locationPicker/location_picker_view.dart';
 import 'package:client/modules/unknown_page.dart';
 import 'package:client/modules/restaurant/restaurant_list.dart';
+import 'package:client/modules/restaurant_direction/restaurant_directions.dart';
 
 class RouteGenerator {
 
@@ -44,6 +45,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => SettingsView());
       case '/locationPicker':
         return MaterialPageRoute(builder: (_) => LocationPickerView(arguments: args as Map<String, dynamic>));
+      case '/restaurantDirections':
+        return MaterialPageRoute(builder: (_) => RestaurantDirections(arguments: args as Map<String, dynamic>));
       case '/nothingSelected':
         return MaterialPageRoute(builder: (_) => NotingSelected());
       default:
