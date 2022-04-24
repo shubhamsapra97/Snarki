@@ -108,16 +108,9 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
               ],
             )
           ),
-          title: GestureDetector(
-            // When the child is tapped, show a snackbar.
-            onTap: () {
-              ScaffoldMessenger.of(context).hideCurrentSnackBar();
-              var snackBar = SnackBar(content: Text('Timing: ${restaurant['hours']} \n\nContact: ${restaurant['contact']}'));
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);},
-            child: Text(
+          title: Text(
               restaurant['name'],
               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-            ),
           ),
           subtitle: Row(
             children: <Widget>[

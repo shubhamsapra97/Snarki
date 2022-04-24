@@ -62,6 +62,9 @@ class UserLocation {
       }
     }
 
-    return prefs.getString('location') ?? jsonEncode({});
+    return prefs.getString('location') ?? jsonEncode({
+      'error': 'Snarki is denied location access.',
+      'icon': 'assets/icon/icon.png'
+    });
   }
 }

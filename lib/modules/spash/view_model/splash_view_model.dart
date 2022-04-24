@@ -10,13 +10,12 @@ class SplashViewModel extends BaseViewModel {
   SplashViewModel(this._authService);
 
   Future handleStartUpLogic(BuildContext context) async {
-    Future.delayed(Duration(seconds: 2), () => {
-      Navigator.of(context).pushNamed(
-          '/locationPicker',
+    await _authService.checkUserLoginStatus();
+    Navigator.of(context).pushNamed(
+        '/locationPicker',
         arguments: {
-            'fetchLocation': true
+          'fetchLocation': true
         }
-      )
-    });
+    );
   }
 }
