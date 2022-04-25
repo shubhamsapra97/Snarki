@@ -33,7 +33,8 @@ class _LocationPickerView extends State<LocationPickerView> {
             if (data['error'] != null) {
               return AppBarWidget(
                 message: data['error'],
-                icon: data['icon']
+                icon: data['icon'],
+                drawerRequired: widget.arguments['drawerRequired'] ?? true,
               );
             }
 

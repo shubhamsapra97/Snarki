@@ -7,11 +7,13 @@ import 'package:client/injection.dart';
 class AppBarWidget extends StatelessWidget {
   final String message;
   final String icon;
+  final bool drawerRequired;
 
   AppBarWidget({
     String message = '',
-    String icon = ''
-  }): this.message = message, this.icon = icon;
+    String icon = '',
+    bool drawerRequired = true
+  }): this.message = message, this.icon = icon, this.drawerRequired = drawerRequired;
 
   @override
   Widget build(context) {
@@ -38,6 +40,11 @@ class AppBarWidget extends StatelessWidget {
             centerTitle: true,
             backgroundColor: Colors.transparent,
             elevation: 0,
+            leading: !drawerRequired ? IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                onPressed: () {
+                  Navigator.pop(context, true);
+                }) : null,
             bottom: PreferredSize(
                 child: Container(
                   color: Colors.black.withOpacity(0.5),
@@ -45,7 +52,7 @@ class AppBarWidget extends StatelessWidget {
                   height: 0.5,
                 ),
                 preferredSize: Size.fromHeight(1))),
-        drawer: DrawerCustom(),
+        drawer: drawerRequired ? DrawerCustom() : null,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,

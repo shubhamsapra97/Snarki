@@ -66,7 +66,7 @@ class _AppSettingsState extends State<SettingsView> {
                   leading: Icon(Icons.location_pin),
                   title: 'Location',
                   subtitle: 'Update your location',
-                  child: LocationPickerView(arguments: {'fetchLocation': false})
+                  child: LocationPickerView(arguments: {'fetchLocation': false, 'drawerRequired': false})
               )
             ],
           ),

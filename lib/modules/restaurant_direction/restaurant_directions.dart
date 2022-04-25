@@ -60,7 +60,7 @@ class _RestaurantDirections extends State<RestaurantDirections> {
   Widget build(context) {
     List<Marker> markers = [];
     bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    double mapIconSize = isIOS ? 10 : 12;
+    double mapIconSize = isIOS ? 6 : 12;
 
     BitmapDescriptor.fromAssetImage(
         ImageConfiguration(
