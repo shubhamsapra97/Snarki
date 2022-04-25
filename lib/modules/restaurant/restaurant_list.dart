@@ -278,7 +278,9 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
                           Padding(
                             padding: const EdgeInsets.only(left: 20.0, right: 20.0),
                             child: Text(
-                              "Go for different cuisines or broaden the search radius in settings.",
+                              userLocation != null ?
+                                "Go for different cuisines or broaden the search radius in settings."
+                                : "Snarki does not have your current location. Restart the app or allow access in Settings.",
                               textAlign: TextAlign.center,
                               style: TextStyle(fontWeight: FontWeight.bold),
                             ),
