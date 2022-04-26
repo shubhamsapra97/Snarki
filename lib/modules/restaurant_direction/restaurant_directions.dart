@@ -42,6 +42,11 @@ PreferredSizeWidget _appBar(BuildContext context) {
     centerTitle: true,
     backgroundColor: Colors.transparent,
     elevation: 0,
+    leading: IconButton(
+        icon: Icon(Icons.arrow_back_ios),
+        onPressed: () {
+          Navigator.pop(context, true);
+        }),
     bottom: PreferredSize(
       child: Container(
         color: Colors.black.withOpacity(0.5),
@@ -100,7 +105,6 @@ class _RestaurantDirections extends State<RestaurantDirections> {
             if (data['error'] != null) {
               return Scaffold(
                   appBar: _appBar(context),
-                  drawer: DrawerCustom(),
                   backgroundColor: Color(0xfff5f5f5),
                   body: Center(
                     child: Padding(
