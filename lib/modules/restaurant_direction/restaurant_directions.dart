@@ -8,6 +8,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:client/injection.dart';
 import 'package:client/core/shared_service/auth_service.dart';
 import 'package:client/core/core.dart';
+import 'package:client/core/shared_utils/marker.dart';
 
 
 class RestaurantDirections extends StatefulWidget {
@@ -60,14 +61,8 @@ class _RestaurantDirections extends State<RestaurantDirections> {
   Widget build(context) {
     List<Marker> markers = [];
     bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-    double mapIconSize = isIOS ? 6 : 12;
 
-    BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(
-            size: Size(mapIconSize, mapIconSize)
-        ),
-        'assets/food_marker.png'
-    ).then((icon) {
+    loadMarker(isIOS, 'assets/food_marker.png').then((icon) {
       markers.add(Marker(
           markerId: MarkerId('Destination'),
           position: LatLng(widget.arguments['restaurantLatitude'], widget.arguments['restaurantLongitude']),
