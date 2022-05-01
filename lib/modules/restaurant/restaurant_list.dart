@@ -1,5 +1,4 @@
 import 'dart:ui';
-import 'dart:math';
 import 'dart:convert';
 import 'package:client/core/core.dart';
 import 'package:flutter/material.dart';
@@ -7,12 +6,12 @@ import 'package:stacked/stacked.dart';
 import 'package:client/core/shared_service/auth_service.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:client/modules/restaurants_search/restaurants_map_view_model.dart';
 import 'package:client/injection.dart';
 import 'package:latlong/latlong.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:client/core/environments/environments.dart';
 
 class RestaurantsListView extends StatefulWidget {
   final List<String> cusineTag;
@@ -147,6 +146,7 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
     var userLocation = null;
     var sortedRestaurants = [];
     bool isLoggedIn = getIt<AuthService>().currentUserDetails != null;
+    final bool trackEvents = Environments().config.trackEvents;
 
     return ViewModelBuilder<RestaurantsSearchViewModel>.reactive(
       viewModelBuilder: () => getIt<RestaurantsSearchViewModel>(),
@@ -155,15 +155,19 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
         userLocation = jsonDecode(prefs.getString('location')!);
 
         bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-        var name = isIOS ? 'restaurant_list_view_ios' : 'restaurant_list_view';
-        FirebaseAnalytics().logEvent(
-          name: name,
-          parameters: <String, String>{
-            'deviceOS': isIOS ? 'IOS' : 'Android',
-            'cuisines': widget.cusineTag.toString()
-          },
-        );
 
+        if (trackEvents) {
+          var name = isIOS
+              ? 'restaurant_list_view_ios'
+              : 'restaurant_list_view';
+          FirebaseAnalytics().logEvent(
+            name: name,
+            parameters: <String, String>{
+              'deviceOS': isIOS ? 'IOS' : 'Android',
+              'cuisines': widget.cusineTag.toString()
+            },
+          );
+        }
         await model.fetchRestaurantsList(widget.cusineTag);
 
         if (model.restaurants.length > 0) {

@@ -6,11 +6,14 @@ import 'package:flutter_icons/flutter_icons.dart';
 import 'package:client/core/shared_service/auth_service.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:client/injection.dart';
+import 'package:client/core/environments/environments.dart';
 
 class DrawerCustom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isLoggedIn = getIt<AuthService>().currentUserDetails != null;
+    final bool trackEvents = Environments().config.trackEvents;
+
     return Drawer(
       elevation: 0.0,
       child: Container(
@@ -116,9 +119,11 @@ class DrawerCustom extends StatelessWidget {
                             style: Theme.of(context).textTheme.subtitle1,
                           ),
                           onTap: () async {
-                            FirebaseAnalytics().logEvent(
-                              name: 'user_logged_out',
-                            );
+                            if (trackEvents) {
+                              FirebaseAnalytics().logEvent(
+                                name: 'user_logged_out',
+                              );
+                            }
                             FirebaseAuth.instance.signOut().then((value){
                               Navigator.of(context).pushNamedAndRemoveUntil(
                                   '/', (Route<dynamic> route) => false);

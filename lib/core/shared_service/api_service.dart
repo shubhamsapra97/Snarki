@@ -11,19 +11,20 @@ import 'package:injectable/injectable.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:location/location.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:client/core/environments/environments.dart';
 
 @injectable
 class ApiRepository {
   DioClient? dioClient = null;
-  String _baseUrl = "https://wz1u3d11cf.execute-api.us-east-1.amazonaws.com";
   LocationData? _networkLocationData;
   Map<String, dynamic>? _locationData;
   Map<String, dynamic>? get locationData => _locationData;
   LocationData? get networkLocationData => _networkLocationData;
+  final String apiHost = Environments().config.apiHost;
 
   ApiRepository() {
     var dio = Dio();
-    dioClient = DioClient(_baseUrl, dio);
+    dioClient = DioClient(apiHost, dio);
   }
 
   Future<ApiResult<SearchResults>> fetchAllRestaurants(cuisines) async {

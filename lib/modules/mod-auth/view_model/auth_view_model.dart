@@ -6,8 +6,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
-
-import 'package:client/injection.dart';
+import 'package:client/core/environments/environments.dart';
 
 @injectable
 class AuthViewModel extends BaseViewModel {
@@ -16,6 +15,7 @@ class AuthViewModel extends BaseViewModel {
 
   String role = Role.user;
   List<String> foodCategories = [];
+  final bool trackEvents = Environments().config.trackEvents;
 
   AuthViewModel(this._authService, this._dialogService);
 
@@ -33,9 +33,13 @@ class AuthViewModel extends BaseViewModel {
     );
     setBusy(false);
     if (result != null) {
-      bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-      var name = isIOS ? 'user_signed_up_ios' : 'user_signed_up';
-      FirebaseAnalytics().logEvent(name: name);
+      bool isIOS = Theme
+          .of(context)
+          .platform == TargetPlatform.iOS;
+      if (trackEvents) {
+        var name = isIOS ? 'user_signed_up_ios' : 'user_signed_up';
+        FirebaseAnalytics().logEvent(name: name);
+      }
       Navigator.of(context).pushNamed('/home');
     }
   }
@@ -46,9 +50,11 @@ class AuthViewModel extends BaseViewModel {
     var result = await _authService.signInWithEmailPassword(email, password);
     setBusy(false);
     if (result != null) {
-      FirebaseAnalytics().logEvent(
-          name: 'user_logged_in'
-      );
+      if (trackEvents) {
+        FirebaseAnalytics().logEvent(
+            name: 'user_logged_in'
+        );
+      }
       Navigator.of(context).pushNamed('/home');
     }
   }
