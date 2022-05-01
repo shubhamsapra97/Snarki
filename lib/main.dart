@@ -6,6 +6,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:client/core/shared_service/shared_firebase_analytics.dart';
 import 'package:client/core/router/route_generator.dart';
 import 'package:client/injection.dart';
+import 'package:client/core/environments/environments.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +15,14 @@ void main() async {
     cacheProvider: SharePreferenceCache(),
   );
   configureDependencies();
+
+  // configure env type
+  const String environment = String.fromEnvironment(
+    'ENVIRONMENT',
+    defaultValue: Environments.DEV,
+  );
+  Environments().initConfig(environment);
+
   runApp(App());
 }
 
