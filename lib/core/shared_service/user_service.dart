@@ -2,6 +2,8 @@ import 'dart:async';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:injectable/injectable.dart';
+import 'package:stacked_services/stacked_services.dart';
+import 'package:client/injection.dart';
 
 import 'package:client/core/core.dart';
 
@@ -88,5 +90,15 @@ class UserService {
   Future<bool> _userExists(String uid) async {
     DocumentSnapshot snapshot = await _userCollection.doc(uid).get();
     return snapshot.exists;
+  }
+
+  Future removeUser(String uid) async {
+    try {
+      if (uid.length == 0) return false;
+      await _userCollection.doc(uid).delete();
+    } catch (e) {
+      await getIt<DialogService>().showDialog(title: "Error", description: e.toString());
+      return null;
+    }
   }
 }

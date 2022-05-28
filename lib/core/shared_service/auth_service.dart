@@ -7,7 +7,6 @@ import 'package:flutter/services.dart';
 import 'package:client/core/core.dart';
 import 'package:injectable/injectable.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:client/injection.dart';
 
 @singleton
 class AuthService {
@@ -118,9 +117,22 @@ class AuthService {
   }
 
   Future _populateCurrentUser(User firebaseUser) async {
-    if (firebaseUser != null) {
+    if (firebaseUser.uid.length != 0) {
       UserProfile user = await getIt<UserService>().getUser(firebaseUser.uid);
       _currentUser = user;
+    }
+  }
+
+  Future removeUserAccount() async {
+    if (_auth.currentUser != null) {
+      try {
+        await getIt<UserService>().removeUser(_auth.currentUser!.uid);
+        await FirebaseAuth.instance.currentUser!.delete();
+        _currentUser = null;
+      } catch(e) {
+        await getIt<DialogService>().showDialog(title: "Error", description: e.toString());
+        return null;
+      }
     }
   }
 }

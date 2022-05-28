@@ -22,7 +22,6 @@ class ProfileViewModel extends BaseViewModel{
       result = await _authService.changePassword(currentPassword, newPassword);
     }
     setBusy(false);
-    print('resut asndasd $result');
     if (result != null) {
       await _dialogService.showDialog(title: "Success", description : "Password Updated");
     }
