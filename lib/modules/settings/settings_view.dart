@@ -45,13 +45,6 @@ class _AppSettingsState extends State<SettingsView> {
       ),
       body: Column(
         children: [
-          isLoggedIn ?
-            SimpleSettingsTile(
-                leading: Icon(Icons.lock),
-                title: 'Account',
-                subtitle: 'Change Password',
-                child: ChangePassword()
-            ) : Offstage(),
           SettingsGroup(
             title: 'Geo settings',
             children: <Widget>[
@@ -75,24 +68,36 @@ class _AppSettingsState extends State<SettingsView> {
               )
             ],
           ),
-          isLoggedIn ?
-          SettingsTile(
+          isLoggedIn ? SettingsGroup(
+            title: 'Account',
+            children: <Widget>[
+              SimpleSettingsTile(
+                  leading: Icon(Icons.lock),
+                  title: 'Password',
+                  subtitle: 'Change Password',
+                  child: ChangePassword()
+              ),
+              SettingsTile(
                 leading: Icons.delete_forever,
                 onPressed: () async {
                   var response = await getIt<DialogService>().showDialog(
-                    title: "Are you sure you want to remove this Account?",
-                    description: "On clicking Confirm, you will lose all your data and access to all the account functionalities.",
+                      title: "Are you sure you want to remove this Account?",
+                      description: "On clicking Confirm, you will lose all your data and access to all the account functionalities.",
                       buttonTitle: "Confirm",
-                    cancelTitle: "Cancel"
+                      cancelTitle: "Cancel"
                   );
 
                   if (response.confirmed) {
                     await getIt<AuthService>().removeUserAccount();
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/home', (Route<dynamic> route) => false);
                   }
                 },
                 title: 'Delete Account',
                 subtitle: 'Delete Snarki Account',
-            ) : Offstage(),
+              )
+            ],
+          ) : Offstage(),
         ],
       ),
     );

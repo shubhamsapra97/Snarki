@@ -20,7 +20,7 @@ class SettingsTile extends StatelessWidget {
     return new GestureDetector(
       onTap: onPressed,
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(15),
         color: Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -29,6 +29,7 @@ class SettingsTile extends StatelessWidget {
             Icon(
               leading,
               color: Color(0xFF757575),
+              size: 25,
             ),
             SizedBox(
               width: 30

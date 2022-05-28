@@ -126,7 +126,7 @@ class DrawerCustom extends StatelessWidget {
                             }
                             FirebaseAuth.instance.signOut().then((value){
                               Navigator.of(context).pushNamedAndRemoveUntil(
-                                  '/', (Route<dynamic> route) => false);
+                                  '/home', (Route<dynamic> route) => false);
                             });
                           },
                         ) : Offstage(),
