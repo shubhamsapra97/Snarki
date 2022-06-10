@@ -103,3 +103,19 @@ Map<String, dynamic> _$$_ReviewsToJson(_$_Reviews instance) =>
       'rating': instance.rating,
       'time': instance.time,
     };
+
+_$_UserFeedback _$$_UserFeedbackFromJson(Map<String, dynamic> json) =>
+    _$_UserFeedback(
+      feedbackType: json['feedbackType'] as String,
+      fullName: json['fullName'] as String,
+      email: json['email'] as String,
+      description: json['description'] as String,
+    );
+
+Map<String, dynamic> _$$_UserFeedbackToJson(_$_UserFeedback instance) =>
+    <String, dynamic>{
+      'feedbackType': instance.feedbackType,
+      'fullName': instance.fullName,
+      'email': instance.email,
+      'description': instance.description,
+    };

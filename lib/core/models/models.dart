@@ -125,3 +125,15 @@ class Reviews with _$Reviews {
 
   factory Reviews.fromJson(Map<String, dynamic> json) => _$ReviewsFromJson(json);
 }
+
+@freezed
+class UserFeedback with _$UserFeedback {
+  const factory UserFeedback({
+    required String feedbackType,
+    required String fullName,
+    required String email,
+    required String description
+  }) = _UserFeedback;
+
+  factory UserFeedback.fromJson(Map<String, dynamic> json) => _$UserFeedbackFromJson(json);
+}

@@ -88,6 +88,19 @@ class DrawerCustom extends StatelessWidget {
                       ),
                       Divider(),
                       ListTile(
+                        leading: Icon(Icons.feedback,
+                            color: Colors.black54),
+                        title: Text(
+                          'Feedback',
+                          style: Theme.of(context).textTheme.subtitle1,
+                        ),
+                        onTap: () {
+                          Navigator.pop(context, true);
+                          Navigator.of(context).pushNamed('/feedback');
+                        },
+                      ),
+                      Divider(),
+                      ListTile(
                         leading: Icon(Icons.verified,
                             color: Colors.black54),
                         title: Text(

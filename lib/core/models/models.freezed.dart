@@ -1417,3 +1417,236 @@ abstract class _Reviews implements Reviews {
   _$ReviewsCopyWith<_Reviews> get copyWith =>
       throw _privateConstructorUsedError;
 }
+
+UserFeedback _$UserFeedbackFromJson(Map<String, dynamic> json) {
+  return _UserFeedback.fromJson(json);
+}
+
+/// @nodoc
+class _$UserFeedbackTearOff {
+  const _$UserFeedbackTearOff();
+
+  _UserFeedback call(
+      {required String feedbackType,
+      required String fullName,
+      required String email,
+      required String description}) {
+    return _UserFeedback(
+      feedbackType: feedbackType,
+      fullName: fullName,
+      email: email,
+      description: description,
+    );
+  }
+
+  UserFeedback fromJson(Map<String, Object> json) {
+    return UserFeedback.fromJson(json);
+  }
+}
+
+/// @nodoc
+const $UserFeedback = _$UserFeedbackTearOff();
+
+/// @nodoc
+mixin _$UserFeedback {
+  String get feedbackType => throw _privateConstructorUsedError;
+  String get fullName => throw _privateConstructorUsedError;
+  String get email => throw _privateConstructorUsedError;
+  String get description => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $UserFeedbackCopyWith<UserFeedback> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UserFeedbackCopyWith<$Res> {
+  factory $UserFeedbackCopyWith(
+          UserFeedback value, $Res Function(UserFeedback) then) =
+      _$UserFeedbackCopyWithImpl<$Res>;
+  $Res call(
+      {String feedbackType, String fullName, String email, String description});
+}
+
+/// @nodoc
+class _$UserFeedbackCopyWithImpl<$Res> implements $UserFeedbackCopyWith<$Res> {
+  _$UserFeedbackCopyWithImpl(this._value, this._then);
+
+  final UserFeedback _value;
+  // ignore: unused_field
+  final $Res Function(UserFeedback) _then;
+
+  @override
+  $Res call({
+    Object? feedbackType = freezed,
+    Object? fullName = freezed,
+    Object? email = freezed,
+    Object? description = freezed,
+  }) {
+    return _then(_value.copyWith(
+      feedbackType: feedbackType == freezed
+          ? _value.feedbackType
+          : feedbackType // ignore: cast_nullable_to_non_nullable
+              as String,
+      fullName: fullName == freezed
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+abstract class _$UserFeedbackCopyWith<$Res>
+    implements $UserFeedbackCopyWith<$Res> {
+  factory _$UserFeedbackCopyWith(
+          _UserFeedback value, $Res Function(_UserFeedback) then) =
+      __$UserFeedbackCopyWithImpl<$Res>;
+  @override
+  $Res call(
+      {String feedbackType, String fullName, String email, String description});
+}
+
+/// @nodoc
+class __$UserFeedbackCopyWithImpl<$Res> extends _$UserFeedbackCopyWithImpl<$Res>
+    implements _$UserFeedbackCopyWith<$Res> {
+  __$UserFeedbackCopyWithImpl(
+      _UserFeedback _value, $Res Function(_UserFeedback) _then)
+      : super(_value, (v) => _then(v as _UserFeedback));
+
+  @override
+  _UserFeedback get _value => super._value as _UserFeedback;
+
+  @override
+  $Res call({
+    Object? feedbackType = freezed,
+    Object? fullName = freezed,
+    Object? email = freezed,
+    Object? description = freezed,
+  }) {
+    return _then(_UserFeedback(
+      feedbackType: feedbackType == freezed
+          ? _value.feedbackType
+          : feedbackType // ignore: cast_nullable_to_non_nullable
+              as String,
+      fullName: fullName == freezed
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String,
+      email: email == freezed
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: description == freezed
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_UserFeedback with DiagnosticableTreeMixin implements _UserFeedback {
+  const _$_UserFeedback(
+      {required this.feedbackType,
+      required this.fullName,
+      required this.email,
+      required this.description});
+
+  factory _$_UserFeedback.fromJson(Map<String, dynamic> json) =>
+      _$$_UserFeedbackFromJson(json);
+
+  @override
+  final String feedbackType;
+  @override
+  final String fullName;
+  @override
+  final String email;
+  @override
+  final String description;
+
+  @override
+  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
+    return 'UserFeedback(feedbackType: $feedbackType, fullName: $fullName, email: $email, description: $description)';
+  }
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties
+      ..add(DiagnosticsProperty('type', 'UserFeedback'))
+      ..add(DiagnosticsProperty('feedbackType', feedbackType))
+      ..add(DiagnosticsProperty('fullName', fullName))
+      ..add(DiagnosticsProperty('email', email))
+      ..add(DiagnosticsProperty('description', description));
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other is _UserFeedback &&
+            (identical(other.feedbackType, feedbackType) ||
+                const DeepCollectionEquality()
+                    .equals(other.feedbackType, feedbackType)) &&
+            (identical(other.fullName, fullName) ||
+                const DeepCollectionEquality()
+                    .equals(other.fullName, fullName)) &&
+            (identical(other.email, email) ||
+                const DeepCollectionEquality().equals(other.email, email)) &&
+            (identical(other.description, description) ||
+                const DeepCollectionEquality()
+                    .equals(other.description, description)));
+  }
+
+  @override
+  int get hashCode =>
+      runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(feedbackType) ^
+      const DeepCollectionEquality().hash(fullName) ^
+      const DeepCollectionEquality().hash(email) ^
+      const DeepCollectionEquality().hash(description);
+
+  @JsonKey(ignore: true)
+  @override
+  _$UserFeedbackCopyWith<_UserFeedback> get copyWith =>
+      __$UserFeedbackCopyWithImpl<_UserFeedback>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_UserFeedbackToJson(this);
+  }
+}
+
+abstract class _UserFeedback implements UserFeedback {
+  const factory _UserFeedback(
+      {required String feedbackType,
+      required String fullName,
+      required String email,
+      required String description}) = _$_UserFeedback;
+
+  factory _UserFeedback.fromJson(Map<String, dynamic> json) =
+      _$_UserFeedback.fromJson;
+
+  @override
+  String get feedbackType => throw _privateConstructorUsedError;
+  @override
+  String get fullName => throw _privateConstructorUsedError;
+  @override
+  String get email => throw _privateConstructorUsedError;
+  @override
+  String get description => throw _privateConstructorUsedError;
+  @override
+  @JsonKey(ignore: true)
+  _$UserFeedbackCopyWith<_UserFeedback> get copyWith =>
+      throw _privateConstructorUsedError;
+}

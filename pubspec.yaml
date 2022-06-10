@@ -52,6 +52,7 @@ dependencies:
   flutter_svg: ^0.23.0+1
   auto_size_text: ^3.0.0
   shimmer: ^2.0.0
+  email_validator: ^1.0.6
 
   # icons
   cupertino_icons: ^0.1.3

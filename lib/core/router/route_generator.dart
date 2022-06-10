@@ -6,14 +6,13 @@ import 'package:client/modules/mod-auth/views/login_view.dart';
 import 'package:client/modules/mod-auth/views/sign_up_view.dart';
 import 'package:client/modules/profile/change_password_view.dart';
 import 'package:client/modules/profile/user_profile_view.dart';
-import 'package:client/modules/restaurant/map_view.dart';
-import 'package:client/modules/restaurants_search/restaurants_map_view.dart';
 import 'package:client/modules/settings/settings_view.dart';
 import 'package:client/modules/spash/view/splash_screen.dart';
 import 'package:client/modules/locationPicker/location_picker_view.dart';
 import 'package:client/modules/unknown_page.dart';
 import 'package:client/modules/restaurant/restaurant_list.dart';
 import 'package:client/modules/restaurant_direction/restaurant_directions.dart';
+import 'package:client/modules/feedback/feedback_form.dart';
 
 class RouteGenerator {
 
@@ -31,10 +30,6 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => ForgotPasswordView());
       case '/home':
         return MaterialPageRoute(builder: (_) => HomeView());
-      // case '/mapView':
-      //   return MaterialPageRoute(builder: (_) => MapView());
-      // case '/restaurantMapView':
-      //   return MaterialPageRoute(builder: (_) => RestaurantsMapView(cusineTag: args));
       case '/restaurantListView':
         return MaterialPageRoute(builder: (_) => RestaurantsListView(cusineTag: args as List<String>));
       case '/userProfile':
@@ -47,6 +42,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => LocationPickerView(arguments: args as Map<String, dynamic>));
       case '/restaurantDirections':
         return MaterialPageRoute(builder: (_) => RestaurantDirections(arguments: args as Map<String, dynamic>));
+      case '/feedback':
+        return MaterialPageRoute(builder: (_) => FeedbackForm());
       case '/nothingSelected':
         return MaterialPageRoute(builder: (_) => NotingSelected());
       default:
