@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import './utils/validator.dart';
 import 'package:client/injection.dart';
 import 'package:client/core/models/models.dart';
 import 'package:client/core/shared_service/feedback_service.dart';
+import './utils/validator.dart';
 
 class FeedbackForm extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class _FeedbackFormState extends State<FeedbackForm> with Validator {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final double minValue = 8.0;
-  final _feedbackTypeList = <String>["Comment", "Bug", "Question"];
+  final _feedbackTypeList = <String>["Comment", "Bug"];
 
   String _feedbackType = "";
 
@@ -50,35 +50,29 @@ class _FeedbackFormState extends State<FeedbackForm> with Validator {
       padding: EdgeInsets.symmetric(
           vertical: minValue * 2, horizontal: minValue * 3),
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
-            "Select feedback type",
+            "Feedback type",
             style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
           ),
-          SizedBox(
-            width: minValue * 2,
+          DropdownButton<String>(
+            onChanged: (String? type) {
+              setState(() {
+                if (type != null) _feedbackType = type;
+              });
+            },
+            hint: Text(
+              "$_feedbackType",
+              style: TextStyle(fontSize: 16.0),
+            ),
+            items: _feedbackTypeList
+                .map((type) => DropdownMenuItem<String>(
+                  child: Text("$type"),
+                  value: type,
+                )
+            ).toList(),
           ),
-          Expanded(
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: DropdownButton<String>(
-                  onChanged: (String? type) {
-                    setState(() {
-                      if (type != null) _feedbackType = type;
-                    });
-                  },
-                  hint: Text(
-                    "$_feedbackType",
-                    style: TextStyle(fontSize: 16.0),
-                  ),
-                  items: _feedbackTypeList
-                      .map((type) => DropdownMenuItem<String>(
-                    child: Text("$type"),
-                    value: type,
-                  ))
-                      .toList(),
-                ),
-              ))
         ],
       ),
     );
