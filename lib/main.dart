@@ -19,7 +19,7 @@ void main() async {
   // configure env type
   const String environment = String.fromEnvironment(
     'ENVIRONMENT',
-    defaultValue: Environments.DEV,
+    defaultValue: Environments.PROD,
   );
   Environments().initConfig(environment);
 
