@@ -80,7 +80,6 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
       );
     }
 
-    final Distance distance = Distance();
     return Card(
       elevation: 6.0,
       margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),

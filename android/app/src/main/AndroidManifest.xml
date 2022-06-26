@@ -2,7 +2,8 @@
     package="com.snarkiApp.snarkiApp">
    <application
         android:label="Snarki"
-        android:icon="@mipmap/launcher_icon">
+        android:icon="@mipmap/launcher_icon"
+        android:usesCleartextTraffic="true">
         <meta-data
            android:name="com.google.android.geo.API_KEY"
            android:value="AIzaSyAJgXOOk-9-RnRvKcIZGmj4Zda47N7D_Lg" />

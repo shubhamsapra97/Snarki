@@ -70,7 +70,8 @@ class Restaurant with _$Restaurant {
     required String contact,
     required String hours,
     required List<String> cuisines,
-    required Geometry location
+    required Geometry location,
+    required String website
 
     // @JsonKey(name: 'rating') double restaurantRating,
     // @JsonKey(name: 'user_ratings_total') int userRatingsCount,

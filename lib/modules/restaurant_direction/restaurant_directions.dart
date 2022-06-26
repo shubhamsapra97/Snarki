@@ -10,7 +10,7 @@ import 'package:client/core/shared_service/auth_service.dart';
 import 'package:client/core/core.dart';
 import 'package:client/core/shared_utils/marker.dart';
 import 'package:flutter/services.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 
 class RestaurantDirections extends StatefulWidget {
   final Map<String, dynamic> arguments;
@@ -146,192 +146,8 @@ class _RestaurantDirections extends State<RestaurantDirections> {
                   minHeight: 95,
                   parallaxEnabled: true,
                   parallaxOffset: .5,
-                  panel: new Stack(
-                    children: <Widget>[
-                      new Container(
-                        decoration: new BoxDecoration(
-                          image: new DecorationImage(
-                            image: new AssetImage("assets/details.jpg"),
-                            fit: BoxFit.cover,
-                            colorFilter: ColorFilter.mode(
-                                Colors.white.withOpacity(0.6), BlendMode.lighten),
-                          ),
-                        ),
-                      ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          SizedBox(
-                              height: 20
-                          ),
-                          Center(
-                            child: Container(
-                              color: Colors.grey,
-                              height: 4,
-                              width: 30,
-                            ),
-                          ),
-                          SizedBox(
-                              height: 30,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: Icon(
-                                  Icons.drive_eta,
-                                  size: 50,
-                                  color: Colors.green,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: Text(
-                                  "${(data["distance"] * 0.00062137).toStringAsFixed(0)} miles",
-                                  style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 20
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                              height: 25
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8.0),
-                                child: Icon(
-                                  Icons.location_pin,
-                                  size: 50,
-                                  color: Colors.green,
-                                ),
-                              ),
-                              Flexible(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: GestureDetector(
-                                    onTap: () {
-
-                                      Clipboard.setData(ClipboardData(
-                                          text: "${widget.arguments["restaurant"]["address"]}, "
-                                              "${widget.arguments["restaurant"]["city"]}, "
-                                              "${widget.arguments["restaurant"]["state"]}, "
-                                              "${widget.arguments["restaurant"]["postalCode"]}"
-                                      ));
-                                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                      var snackBar = SnackBar(content: Text('copied to clipboard'));
-                                      ScaffoldMessenger.of(context).showSnackBar(snackBar);
-
-                                    },
-                                    child: RichText(
-                                      text: TextSpan(
-                                        children: [
-                                          TextSpan(
-                                            text: "${widget.arguments["restaurant"]["address"]}, "
-                                                "${widget.arguments["restaurant"]["city"]}, "
-                                                "${widget.arguments["restaurant"]["state"]}, "
-                                                "${widget.arguments["restaurant"]["postalCode"]}",
-                                            style: TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 20
-                                            ),
-                                          ),
-                                          WidgetSpan(
-                                            child: Container(
-                                              padding: EdgeInsets.only(left: 10.0),
-                                              child: Icon(Icons.copy, size: 20),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    )
-                                  ),
-                                ),
-                              )
-                            ],
-                          ),
-                          SizedBox(
-                              height: 25
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: Icon(
-                                  Icons.contacts,
-                                  size: 50,
-                                  color: Colors.green,
-                                ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Clipboard.setData(ClipboardData(text: widget.arguments["restaurant"]["contact"]));
-                                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                                    var snackBar = SnackBar(content: Text('copied to clipboard'));
-                                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                                  },
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        "${widget.arguments["restaurant"]["contact"]}",
-                                        style: TextStyle(
-                                            color: Colors.black,
-                                            fontSize: 20
-                                        ),
-                                      ),
-                                      SizedBox(width: 10),
-                                      Icon(
-                                        Icons.copy,
-                                        size: 20,
-                                      )
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                              height: 20
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0),
-                                child: Icon(
-                                  Icons.restaurant,
-                                  size: 50,
-                                  color: Colors.green,
-                                ),
-                              ),
-                              Flexible(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: Text(
-                                    "${widget.arguments["restaurant"]["cuisines"].join(", ")}",
-                                    style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 20
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                  panelBuilder: (ScrollController sc) =>
+                      _panelBody(sc, context, widget.arguments, data),
                   collapsed: Container(
                     decoration: BoxDecoration(
                         color: Colors.white,
@@ -393,4 +209,236 @@ class _RestaurantDirections extends State<RestaurantDirections> {
         }
     );
   }
+}
+
+Widget _panelBody(
+  ScrollController sc,
+  BuildContext context,
+  dynamic arguments,
+  dynamic data)
+{
+  return new Stack(
+    children: <Widget>[
+      new Container(
+        decoration: new BoxDecoration(
+          image: new DecorationImage(
+            image: new AssetImage("assets/details.jpg"),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+                Colors.white.withOpacity(0.6), BlendMode.lighten),
+          ),
+        ),
+      ),
+      ListView(
+        controller: sc,
+        padding: EdgeInsets.only(bottom: 20),
+        children: <Widget>[
+          SizedBox(
+              height: 20
+          ),
+          Center(
+            child: Container(
+              color: Colors.grey,
+              height: 4,
+              width: 30,
+            ),
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Icon(
+                  Icons.drive_eta,
+                  size: 40,
+                  color: Colors.green,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Text(
+                  "${(data["distance"] * 0.00062137).toStringAsFixed(0)} miles",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 20
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+              height: 25
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 8.0),
+                child: Icon(
+                  Icons.location_pin,
+                  size: 40,
+                  color: Colors.green,
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: GestureDetector(
+                      onTap: () {
+                        Clipboard.setData(ClipboardData(
+                            text: "${arguments["restaurant"]["address"]}, "
+                                "${arguments["restaurant"]["city"]}, "
+                                "${arguments["restaurant"]["state"]}, "
+                                "${arguments["restaurant"]["postalCode"]}"
+                        ));
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        var snackBar = SnackBar(content: Text('copied to clipboard'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "${arguments["restaurant"]["address"]}, "
+                                  "${arguments["restaurant"]["city"]}, "
+                                  "${arguments["restaurant"]["state"]}, "
+                                  "${arguments["restaurant"]["postalCode"]}",
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 20
+                              ),
+                            ),
+                            WidgetSpan(
+                              child: Container(
+                                padding: EdgeInsets.only(left: 10.0),
+                                child: Icon(Icons.copy, size: 20),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                  ),
+                ),
+              )
+            ],
+          ),
+          SizedBox(
+              height: 25
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Icon(
+                  Icons.contacts,
+                  size: 40,
+                  color: Colors.green,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: GestureDetector(
+                  onTap: () {
+                    Clipboard.setData(ClipboardData(text: arguments["restaurant"]["contact"]));
+                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                    var snackBar = SnackBar(content: Text('copied to clipboard'));
+                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${arguments["restaurant"]["contact"]}",
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 20
+                        ),
+                      ),
+                      SizedBox(width: 10),
+                      Icon(
+                        Icons.copy,
+                        size: 20,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+              height: 20
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: Icon(
+                  Icons.restaurant,
+                  size: 40,
+                  color: Colors.green,
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Text(
+                    "${arguments["restaurant"]["cuisines"].join(", ")}",
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 20
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+          if (arguments["restaurant"]["website"].length != 0) ...[
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(left: 10.0),
+                  child: Icon(
+                    Icons.launch,
+                    size: 40,
+                    color: Colors.green,
+                  ),
+                ),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: new InkWell(
+                        child: new Text(
+                          arguments["restaurant"]["website"],
+                          style: TextStyle(
+                              color: Colors.lightBlueAccent,
+                              decoration: TextDecoration.underline,
+                              fontSize: 20
+                          ),
+                        ),
+                        onTap: () async {
+                          var url = arguments["restaurant"]["website"];
+                          if (!await launchUrl(Uri.parse(url))) {
+                            ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                            var snackBar = SnackBar(content: Text('Unable to launch url.'));
+                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                          }
+                        }
+                    ),
+                  ),
+                ),
+              ],
+            )] else Offstage(),
+        ],
+      ),
+    ],
+  );
 }

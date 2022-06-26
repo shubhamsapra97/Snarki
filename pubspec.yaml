@@ -47,7 +47,7 @@ dependencies:
   http_parser: 4.0.0
   flutter_settings_screens: ^0.2.1
   formz: ^0.3.2
-  url_launcher: 6.0.11
+  url_launcher: 6.1.4
   map_picker: ^0.0.3
   flutter_svg: ^0.23.0+1
   auto_size_text: ^3.0.0

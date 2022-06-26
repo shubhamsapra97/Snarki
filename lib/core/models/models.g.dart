@@ -31,6 +31,7 @@ _$_Restaurant _$$_RestaurantFromJson(Map<String, dynamic> json) =>
       cuisines:
           (json['cuisines'] as List<dynamic>).map((e) => e as String).toList(),
       location: Geometry.fromJson(json['location'] as Map<String, dynamic>),
+      website: json['website'] as String,
     );
 
 Map<String, dynamic> _$$_RestaurantToJson(_$_Restaurant instance) =>
@@ -45,6 +46,7 @@ Map<String, dynamic> _$$_RestaurantToJson(_$_Restaurant instance) =>
       'hours': instance.hours,
       'cuisines': instance.cuisines,
       'location': instance.location,
+      'website': instance.website,
     };
 
 _$_Geometry _$$_GeometryFromJson(Map<String, dynamic> json) => _$_Geometry(

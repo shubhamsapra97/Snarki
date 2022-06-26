@@ -193,7 +193,8 @@ class _$RestaurantTearOff {
       required String contact,
       required String hours,
       required List<String> cuisines,
-      required Geometry location}) {
+      required Geometry location,
+      required String website}) {
     return _Restaurant(
       restaurantId: restaurantId,
       restaurantName: restaurantName,
@@ -205,6 +206,7 @@ class _$RestaurantTearOff {
       hours: hours,
       cuisines: cuisines,
       location: location,
+      website: website,
     );
   }
 
@@ -230,6 +232,7 @@ mixin _$Restaurant {
   String get hours => throw _privateConstructorUsedError;
   List<String> get cuisines => throw _privateConstructorUsedError;
   Geometry get location => throw _privateConstructorUsedError;
+  String get website => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -252,7 +255,8 @@ abstract class $RestaurantCopyWith<$Res> {
       String contact,
       String hours,
       List<String> cuisines,
-      Geometry location});
+      Geometry location,
+      String website});
 
   $GeometryCopyWith<$Res> get location;
 }
@@ -277,6 +281,7 @@ class _$RestaurantCopyWithImpl<$Res> implements $RestaurantCopyWith<$Res> {
     Object? hours = freezed,
     Object? cuisines = freezed,
     Object? location = freezed,
+    Object? website = freezed,
   }) {
     return _then(_value.copyWith(
       restaurantId: restaurantId == freezed
@@ -319,6 +324,10 @@ class _$RestaurantCopyWithImpl<$Res> implements $RestaurantCopyWith<$Res> {
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as Geometry,
+      website: website == freezed
+          ? _value.website
+          : website // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 
@@ -346,7 +355,8 @@ abstract class _$RestaurantCopyWith<$Res> implements $RestaurantCopyWith<$Res> {
       String contact,
       String hours,
       List<String> cuisines,
-      Geometry location});
+      Geometry location,
+      String website});
 
   @override
   $GeometryCopyWith<$Res> get location;
@@ -374,6 +384,7 @@ class __$RestaurantCopyWithImpl<$Res> extends _$RestaurantCopyWithImpl<$Res>
     Object? hours = freezed,
     Object? cuisines = freezed,
     Object? location = freezed,
+    Object? website = freezed,
   }) {
     return _then(_Restaurant(
       restaurantId: restaurantId == freezed
@@ -416,6 +427,10 @@ class __$RestaurantCopyWithImpl<$Res> extends _$RestaurantCopyWithImpl<$Res>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as Geometry,
+      website: website == freezed
+          ? _value.website
+          : website // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -433,7 +448,8 @@ class _$_Restaurant with DiagnosticableTreeMixin implements _Restaurant {
       required this.contact,
       required this.hours,
       required this.cuisines,
-      required this.location});
+      required this.location,
+      required this.website});
 
   factory _$_Restaurant.fromJson(Map<String, dynamic> json) =>
       _$$_RestaurantFromJson(json);
@@ -460,10 +476,12 @@ class _$_Restaurant with DiagnosticableTreeMixin implements _Restaurant {
   final List<String> cuisines;
   @override
   final Geometry location;
+  @override
+  final String website;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Restaurant(restaurantId: $restaurantId, restaurantName: $restaurantName, address: $address, city: $city, state: $state, postalCode: $postalCode, contact: $contact, hours: $hours, cuisines: $cuisines, location: $location)';
+    return 'Restaurant(restaurantId: $restaurantId, restaurantName: $restaurantName, address: $address, city: $city, state: $state, postalCode: $postalCode, contact: $contact, hours: $hours, cuisines: $cuisines, location: $location, website: $website)';
   }
 
   @override
@@ -480,7 +498,8 @@ class _$_Restaurant with DiagnosticableTreeMixin implements _Restaurant {
       ..add(DiagnosticsProperty('contact', contact))
       ..add(DiagnosticsProperty('hours', hours))
       ..add(DiagnosticsProperty('cuisines', cuisines))
-      ..add(DiagnosticsProperty('location', location));
+      ..add(DiagnosticsProperty('location', location))
+      ..add(DiagnosticsProperty('website', website));
   }
 
   @override
@@ -513,7 +532,9 @@ class _$_Restaurant with DiagnosticableTreeMixin implements _Restaurant {
                     .equals(other.cuisines, cuisines)) &&
             (identical(other.location, location) ||
                 const DeepCollectionEquality()
-                    .equals(other.location, location)));
+                    .equals(other.location, location)) &&
+            (identical(other.website, website) ||
+                const DeepCollectionEquality().equals(other.website, website)));
   }
 
   @override
@@ -528,7 +549,8 @@ class _$_Restaurant with DiagnosticableTreeMixin implements _Restaurant {
       const DeepCollectionEquality().hash(contact) ^
       const DeepCollectionEquality().hash(hours) ^
       const DeepCollectionEquality().hash(cuisines) ^
-      const DeepCollectionEquality().hash(location);
+      const DeepCollectionEquality().hash(location) ^
+      const DeepCollectionEquality().hash(website);
 
   @JsonKey(ignore: true)
   @override
@@ -552,7 +574,8 @@ abstract class _Restaurant implements Restaurant {
       required String contact,
       required String hours,
       required List<String> cuisines,
-      required Geometry location}) = _$_Restaurant;
+      required Geometry location,
+      required String website}) = _$_Restaurant;
 
   factory _Restaurant.fromJson(Map<String, dynamic> json) =
       _$_Restaurant.fromJson;
@@ -579,6 +602,8 @@ abstract class _Restaurant implements Restaurant {
   List<String> get cuisines => throw _privateConstructorUsedError;
   @override
   Geometry get location => throw _privateConstructorUsedError;
+  @override
+  String get website => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$RestaurantCopyWith<_Restaurant> get copyWith =>
