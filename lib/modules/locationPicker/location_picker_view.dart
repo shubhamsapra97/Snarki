@@ -9,6 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:client/core/shared_service/location.dart';
 import 'package:client/modules/common/app_bar.dart';
 import 'package:client/injection.dart';
+import 'package:client/core/shared_service/firebase_dynamic_links.dart';
 
 class LocationPickerView extends StatefulWidget {
   final Map<String, dynamic> arguments;
@@ -91,6 +92,9 @@ class _LocationPickerView extends State<LocationPickerView> {
                             'lng': cameraPosition.target.longitude
                           });
                           prefs.setString('location', jsonEncode(userLocation));
+
+                          FirebaseDynamicLinkService.initDynamicLink(context);
+
                           Navigator.of(context).pushNamed('/home');
                         },
                         style: ButtonStyle(

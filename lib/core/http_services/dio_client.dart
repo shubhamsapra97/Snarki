@@ -9,19 +9,16 @@ const _defaultReceiveTimeout = Duration.millisecondsPerMinute;
 
 
 class DioClient {
-  final String baseUrl;
 
   Dio _dio = Dio();
   final List<Interceptor>? interceptors;
 
   DioClient(
-    this.baseUrl,
     Dio dio, {
     this.interceptors,
   }) {
     _dio = dio;
     _dio
-      ..options.baseUrl = baseUrl
       ..options.connectTimeout = _defaultConnectTimeout
       ..options.receiveTimeout = _defaultReceiveTimeout
       ..httpClientAdapter

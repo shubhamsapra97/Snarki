@@ -20,11 +20,12 @@ class ApiRepository {
   Map<String, dynamic>? _locationData;
   Map<String, dynamic>? get locationData => _locationData;
   LocationData? get networkLocationData => _networkLocationData;
-  final String apiHost = Environments().config.apiHost;
+  final String getRestaurantsByCuisineApiHost = Environments().config.apiHost;
+  final String getRestaurantsByIdApiHost = Environments().config.getRestaurantApiHost;
 
   ApiRepository() {
     var dio = Dio();
-    dioClient = DioClient(apiHost, dio);
+    dioClient = DioClient(dio);
   }
 
   Future<ApiResult<SearchResults>> fetchAllRestaurants(cuisines) async {
@@ -45,7 +46,7 @@ class ApiRepository {
 
     if (dioClient != null) {
       try {
-        final response = await dioClient!.get("/",
+        final response = await dioClient!.get(getRestaurantsByCuisineApiHost,
             queryParameters: {
               "cuisine": jsonEncode(cuisines),
               "latitude": latitude,
@@ -64,6 +65,21 @@ class ApiRepository {
     }
 
     return ApiResult.failure(error: NetworkExceptions.getDioException('DioClient cannot be null'));
+  }
+
+  Future<ApiResult<SearchResults>> fetchRestaurantsById(
+      String restaurantId) async {
+    try {
+      final response = await dioClient!.get(getRestaurantsByIdApiHost,
+          queryParameters: {
+            "restaurantId": restaurantId
+          });
+      SearchResults searchResults = SearchResults.fromJson(
+          {"results": jsonDecode(response)});
+      return ApiResult.success(data: searchResults);
+    } catch (e) {
+      return ApiResult.failure(error: NetworkExceptions.getDioException(e));
+    }
   }
 
   // Future<ApiResult<SearchResults>> fetchRestaurantsByCuisine(

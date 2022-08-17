@@ -32,6 +32,11 @@ class _QuestionCardViewState extends State<QuestionCardView>
     CardController controller; //Use this to trigger swap.
     bool isLoggedIn = getIt<AuthService>().currentUserDetails != null;
 
+    //
+    //
+    // PREVENT USER FROM GOINF BACK FROM THIS SCREEN
+    //
+
     return new Scaffold(
       resizeToAvoidBottomInset : false,
       appBar: buildAppBar(

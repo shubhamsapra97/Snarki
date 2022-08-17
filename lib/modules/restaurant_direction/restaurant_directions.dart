@@ -1,16 +1,16 @@
 import 'dart:async';
+import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:client/core/shared_widgets/app_bar.dart';
 import 'package:client/modules/restaurant_direction/directions_handler.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:client/injection.dart';
-import 'package:client/core/shared_service/auth_service.dart';
 import 'package:client/core/core.dart';
 import 'package:client/core/shared_utils/marker.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:client/core/shared_service/firebase_dynamic_links.dart';
 
 class RestaurantDirections extends StatefulWidget {
   final Map<String, dynamic> arguments;
@@ -19,8 +19,7 @@ class RestaurantDirections extends StatefulWidget {
   _RestaurantDirections createState() => _RestaurantDirections();
 }
 
-PreferredSizeWidget _appBar(BuildContext context) {
-  bool isLoggedIn = getIt<AuthService>().currentUserDetails != null;
+PreferredSizeWidget _appBar(final widgetArgs, BuildContext context) {
   return buildAppBar(
     context: context,
     automaticallyImplyLeading: true,
@@ -30,13 +29,13 @@ PreferredSizeWidget _appBar(BuildContext context) {
     ),
     actions: [
       IconButton(
-        icon: Icon(Icons.person),
-        onPressed: () {
-          if (isLoggedIn) {
-            Navigator.pushNamed(context, '/userProfile');
-          } else {
-            Navigator.pushNamed(context, '/login');
-          }
+        icon: Icon(Icons.share),
+        onPressed: () async {
+          var url = await FirebaseDynamicLinkService.createDynamicLink(
+              true,
+              widgetArgs['restaurant']
+          );
+          print(url);
         }
       )
     ],
@@ -105,7 +104,7 @@ class _RestaurantDirections extends State<RestaurantDirections> {
             var data = snapshot.data!;
             if (data['error'] != null) {
               return Scaffold(
-                  appBar: _appBar(context),
+                  appBar: _appBar(widget.arguments, context),
                   backgroundColor: Color(0xfff5f5f5),
                   body: Center(
                     child: Padding(
@@ -140,7 +139,7 @@ class _RestaurantDirections extends State<RestaurantDirections> {
 
             return Scaffold(
               backgroundColor: Color(0xfff5f5f5),
-              appBar: _appBar(context),
+              appBar: _appBar(widget.arguments, context),
               drawer: DrawerCustom(),
               body: SlidingUpPanel(
                   minHeight: 95,
