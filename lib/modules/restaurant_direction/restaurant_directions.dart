@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:firebase_dynamic_links/firebase_dynamic_links.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -11,6 +10,7 @@ import 'package:client/core/shared_utils/marker.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:client/core/shared_service/firebase_dynamic_links.dart';
+import 'package:share_plus/share_plus.dart';
 
 class RestaurantDirections extends StatefulWidget {
   final Map<String, dynamic> arguments;
@@ -31,11 +31,17 @@ PreferredSizeWidget _appBar(final widgetArgs, BuildContext context) {
       IconButton(
         icon: Icon(Icons.share),
         onPressed: () async {
+          final box = context.findRenderObject() as RenderBox?;
+
           var url = await FirebaseDynamicLinkService.createDynamicLink(
               true,
               widgetArgs['restaurant']
           );
-          print(url);
+          Share.share(
+            '''Hey, Checkout ${widgetArgs['restaurant']['name']} restaurant, known for ${widgetArgs['restaurant']['cuisines'].join(", ")}. $url''',
+            subject: "Snarki - Your Personal Restaurant Selector",
+            sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size
+          );
         }
       )
     ],
