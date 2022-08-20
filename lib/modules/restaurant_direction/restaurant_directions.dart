@@ -29,7 +29,7 @@ PreferredSizeWidget _appBar(final widgetArgs, BuildContext context) {
     ),
     actions: [
       IconButton(
-        icon: Icon(Icons.share),
+        icon: Icon(Icons.ios_share_sharp),
         onPressed: () async {
           final box = context.findRenderObject() as RenderBox?;
 
