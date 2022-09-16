@@ -110,7 +110,7 @@ class LoginView extends HookWidget {
 
   Widget _bottomPart(context, AuthViewModel model, media) {
     return Container(
-      height: MediaQuery.of(context).size.height * 0.45,
+      height: MediaQuery.of(context).size.height * 0.47,
       child: Column(
         mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
