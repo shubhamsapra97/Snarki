@@ -30,16 +30,24 @@ class RaisedButtonCustom extends StatelessWidget {
     return SizedBox(
       width: width,
       height: height,
-      child: RaisedButton(
+      child: ElevatedButton(
           // disabledColor: disabledColor ?? HexColor("#D9D9D9"),
-          disabledTextColor: disabledTextColor,
+          // disabledTextColor: disabledTextColor,
           onPressed: () => onPressed!(),
-          elevation: 0,
-          textColor: btnTextColor,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius)),
-          color: btnColor ?? Theme.of(context).accentColor,
-          child: child ??
+          // elevation: 0,
+          // textColor: btnTextColor,
+          // shape:
+          //     RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius)),
+          // Color: btnColor ?? Theme.of(context).accentColor,
+          style: ElevatedButton.styleFrom(
+            primary: btnColor ?? Colors.white,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius)),
+            textStyle: Theme.of(context)
+                .textTheme
+                .button
+                ?.copyWith(color: btnTextColor),
+          ),
+        child: child ??
               Text(
                 btnText,
                 style: Theme.of(context)

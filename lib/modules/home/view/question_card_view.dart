@@ -34,7 +34,7 @@ class _QuestionCardViewState extends State<QuestionCardView>
 
     //
     //
-    // PREVENT USER FROM GOINF BACK FROM THIS SCREEN
+    // PREVENT USER FROM GOING BACK FROM THIS SCREEN
     //
 
     return new Scaffold(

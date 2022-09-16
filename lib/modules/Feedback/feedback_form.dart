@@ -182,7 +182,7 @@ class _FeedbackFormState extends State<FeedbackForm> with Validator {
         actions: <Widget>[
           TextButton(
               onPressed: submitFeedback,
-              child: Text("POST")
+              child: Text("SEND")
           )
         ],
       ),

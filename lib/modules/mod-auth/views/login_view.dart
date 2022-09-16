@@ -35,176 +35,210 @@ class LoginView extends HookWidget {
 
   Widget _loginForm(context, AuthViewModel model, media) {
     return SingleChildScrollView(
-      child: Column(children: [
-        _topPart(context),
-        SizedBox(height: media.screenSize.height * 0.05),
-        _bottomPart(context, model, media),
-        SizedBox(height: media.screenSize.height * 0.1),
-        _lastPart(context, model, media),
-        SizedBox(height: 32),
-      ]),
+      child: Container(
+        color: AppTheme.primaryBackgroundColor,
+        child: Column(children: [
+          _topPart(context),
+          SizedBox(height: media.screenSize.height * 0.1),
+          _bottomPart(context, model, media),
+          SizedBox(height: media.screenSize.height * 0.05),
+        ]),
+      ),
     );
   }
 
   Widget _topPart(context) {
-    return ClipPath(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 32),
-        height: MediaQuery.of(context).size.height * 0.4,
-        width: double.infinity,
-        color: Color(0xff5d5b6a),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    IconButton(
-                        icon: Icon(Icons.arrow_back_ios),
-                        color: Color(0xfff5cdaa),
-                        onPressed: () {
-                          Navigator.pop(context, true);
-                        }),
-                    Text("Welcome!",
-                        style: Theme.of(context).textTheme.headline4?.copyWith(
-                            color: Color(0xfff5cdaa),
-                            fontWeight: FontWeight.bold
-                        ))
-                  ],
-              ),
-              SizedBox(
-                height: 16,
-              ),
-              Text(
-                  "We'd have thrown party to celebrate your come back. We gotta get back to work!",
-                  style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                        color: Colors.white,
-                      )),
-            ]),
-      ),
-      clipper: CurveClipper(),
-    );
-  }
-
-  Widget _lastPart(context, AuthViewModel model, media) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
+    bool isIos = Theme
+        .of(context)
+        .platform == TargetPlatform.iOS;
+    return Stack(
       children: [
-        SizedBox(
-            width: media.screenSize.width * 0.7,
-            height: 48,
-            child: RaisedButtonCustom(
-                child: model.isBusy
-                    ? SizedBox(
-                      child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
-                      height: 15,
-                      width: 15,
-                    )
-                    : Text(
-                        "Login",
-                      ),
-                onPressed: _validationState.value == FormzStatus.valid
-                    ? () async {
-                        await model.signInWithEmailAndPassword(
-                            context,
-                            _email.value.value.trim(),
-                            _password.value.value.trim());
-                      }
-                    : null)),
-        SizedBox(
-          height: 32,
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, '/signUp');
-          },
-          child: StyledText(
-            inlineSpans: [
-              TextSpan(
-                  text: 'Dont have an account?',
-                  style: Theme.of(context).textTheme.bodyText2),
-              TextSpan(
-                text: '  Register',
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: AppTheme.primaryColorLight),
+        ClipPath(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 32),
+            height: MediaQuery.of(context).size.height * 0.4,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/login.png"),
+                fit: BoxFit.cover,
               ),
-            ],
-            textAlign: TextAlign.center,
+            ),
           ),
+          clipper: CurveClipper(),
         ),
-        SizedBox(
-          height: 16,
+        Positioned(
+          left: 20,
+          bottom: 0,
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text("Welcome!",
+                    style: Theme.of(context).textTheme.headline4?.copyWith(
+                        color: Color(0xfff5cdaa),
+                        fontWeight: FontWeight.w200,
+                        fontSize: 30
+                    )),
+                  SizedBox(
+                    height: 8,
+                  ),
+                  Text(
+                      "Snarki",
+                      style: Theme.of(context).textTheme.headline4?.copyWith(
+                          color: Color(0xfff5cdaa),
+                          fontWeight: FontWeight.w400,
+                          fontSize: 30
+                      )),
+                ]),
         ),
+        if (isIos) ...[
+          Positioned(
+          left: 10,
+          top: 50,
+          child: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              color: Colors.white,
+              iconSize: 35,
+              onPressed: () {
+                Navigator.pop(context, true);
+              }),
+        )],
       ],
     );
   }
 
   Widget _bottomPart(context, AuthViewModel model, media) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-            width: media.screenSize.width * 0.7,
-            child: TextFieldCustom(
-              hintText: "Email",
-              prefixIconData: Icons.email,
-              borderSide: true,
-              backgroundColor: Colors.white,
-              errorText: _email.value.status == FormzInputStatus.invalid
-                  ? _email.value.emailValidator.errorText
-                  : null,
-              onChanged: (v) {
-                _email.value = Email.dirty(value: v);
-                _validationState.value =
-                    Formz.validate([_email.value, _password.value]);
-              },
-            )),
-        SizedBox(
-          height: 16,
-        ),
-        SizedBox(
-            width: media.screenSize.width * 0.7,
-            child: TextFieldCustom(
-              obscureText: true,
-              hintText: "Password",
-              prefixIconData: Icons.lock,
-              borderSide: true,
-              backgroundColor: Colors.white,
-              errorText: _password.value.status == FormzInputStatus.invalid
-                  ? _password.value.passwordValidator.errorText
-                  : null,
-              onChanged: (v) {
-                _password.value = Password.dirty(value: v);
-                _validationState.value =
-                    Formz.validate([_email.value, _password.value]);
-              },
-            )),
-        SizedBox(
-          height: 32,
-        ),
-        SizedBox(
-          width: media.screenSize.width * 0.7,
-          child: GestureDetector(
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.45,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+              child: Column(
+                children: [
+                  SizedBox(
+                      width: media.screenSize.width * 0.9,
+                      child: TextFieldCustom(
+                        hintText: "Email",
+                        prefixIconData: Icons.email,
+                        borderSide: true,
+                        textColor: Colors.white,
+                        hintTextColor: Color(0xffaba7be),
+                        backgroundColor: Color(0xff6a667d),
+                        prefixIconColor: AppTheme.primaryColorLight,
+                        borderColor: Color(0xffaaa6bd),
+                        errorText: _email.value.status == FormzInputStatus.invalid
+                            ? _email.value.emailValidator.errorText
+                            : null,
+                        onChanged: (v) {
+                          _email.value = Email.dirty(value: v);
+                          _validationState.value =
+                              Formz.validate([_email.value, _password.value]);
+                        },
+                      )),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  SizedBox(
+                      width: media.screenSize.width * 0.9,
+                      child: TextFieldCustom(
+                        obscureText: true,
+                        hintText: "Password",
+                        prefixIconData: Icons.lock,
+                        borderSide: true,
+                        textColor: Colors.white,
+                        hintTextColor: Color(0xffaba7be),
+                        backgroundColor: Color(0xff6a667d),
+                        borderColor: Color(0xffaaa6bd),
+                        prefixIconColor: AppTheme.primaryColorLight,
+                        errorText: _password.value.status == FormzInputStatus.invalid
+                            ? _password.value.passwordValidator.errorText
+                            : null,
+                        onChanged: (v) {
+                          _password.value = Password.dirty(value: v);
+                          _validationState.value =
+                              Formz.validate([_email.value, _password.value]);
+                        },
+                      )),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      RaisedButtonCustom(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          btnColor: AppTheme.primaryColorLight,
+                          child: model.isBusy ?
+                          SizedBox(
+                            child: CircularProgressIndicator(
+                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+                            height: 15,
+                            width: 15,
+                          ) :
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text("Login"),
+                              Icon(Icons.arrow_right_alt, color: Colors.white,)
+                            ],
+                          ),
+                          onPressed: _validationState.value == FormzStatus.valid ?
+                              () async {
+                            await model.signInWithEmailAndPassword(
+                                context,
+                                _email.value.value.trim(),
+                                _password.value.value.trim());
+                          } : null
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pushNamed('/forgotPassword');
+                        },
+                        child: Text(
+                          'Forgot Password ?',
+                          style: TextStyle(
+                              height: 1.170731707317073,
+                              color: Colors.white,
+                          ),
+                          textAlign: TextAlign.right,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              )
+          ),
+          GestureDetector(
             onTap: () {
-              Navigator.of(context).pushNamed('/forgotPassword');
+              Navigator.pushNamed(context, '/signUp');
             },
-            child: Text(
-              'Forgot password ?',
-              style: TextStyle(
-                height: 1.170731707317073,
-              ),
-              textAlign: TextAlign.right,
+            child: Column(
+              children: [
+                Text(
+                    'Dont have an account?',
+                    style: TextStyle(
+                        fontSize: 15,
+                        color: Color(0xff8d8a9e)
+                    )
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                  'Sign Up',
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w500,
+                    color: AppTheme.primaryColorLight),
+                ),
+              ],
             ),
           ),
-        ),
-        SizedBox(
-          height: 32,
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

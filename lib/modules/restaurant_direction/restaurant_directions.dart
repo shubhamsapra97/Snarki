@@ -20,6 +20,7 @@ class RestaurantDirections extends StatefulWidget {
 }
 
 PreferredSizeWidget _appBar(final widgetArgs, BuildContext context) {
+  bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
   return buildAppBar(
     context: context,
     automaticallyImplyLeading: true,
@@ -29,7 +30,7 @@ PreferredSizeWidget _appBar(final widgetArgs, BuildContext context) {
     ),
     actions: [
       IconButton(
-        icon: Icon(Icons.ios_share_sharp),
+        icon: Icon(isIOS ? Icons.ios_share_sharp : Icons.share),
         onPressed: () async {
           final box = context.findRenderObject() as RenderBox?;
 
