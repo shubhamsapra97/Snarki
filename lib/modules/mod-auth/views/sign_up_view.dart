@@ -49,8 +49,9 @@ class SignUpView extends HookWidget {
           _topPart(context),
           SizedBox(height: media.screenSize.height * 0.1),
           _bottomPart(model, media),
-          SizedBox(height: media.screenSize.height * 0.05),
-          _lastPart(context,model, media)
+          SizedBox(height: media.screenSize.height * 0.1),
+          _lastPart(context,model, media),
+          SizedBox(height: media.screenSize.height * 0.2),
         ]),
       ),
     );
@@ -118,66 +119,69 @@ class SignUpView extends HookWidget {
   }
 
   Widget _lastPart(context, AuthViewModel model, media) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SizedBox(
-          width: media.screenSize.width * 0.7,
-          height: 48,
-          child: RaisedButtonCustom(
-              btnColor: AppTheme.primaryColorLight,
-              child: model.isBusy
-                  ? SizedBox(
-                    child: CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
-                    height: 15,
-                    width: 15,
-                  )
-                  :
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text("Sign Up"),
-                      Icon(Icons.arrow_right_alt, color: Colors.white)
-                    ],
-                  ),
-              onPressed: _validationState.value == FormzStatus.valid
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.2,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          SizedBox(
+            width: media.screenSize.width * 0.7,
+            height: 48,
+            child: RaisedButtonCustom(
+                btnColor: AppTheme.primaryColorLight,
+                child: model.isBusy
+                    ? SizedBox(
+                  child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+                  height: 15,
+                  width: 15,
+                )
+                    :
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text("Sign Up"),
+                    Icon(Icons.arrow_right_alt, color: Colors.white)
+                  ],
+                ),
+                onPressed: _validationState.value == FormzStatus.valid
                     ? () async {
-                      
-                await model.signUpWithEmailAndPassword(
-                    context: context,
-                    email: _email.value.value.trim(),
-                    password: _password.value.value.trim(),
-                    name: _name.value.value.trim());
-              } : null),
-        ),
-        SizedBox(
-          height: 32,
-        ),
-        GestureDetector(
-          onTap: () {
-            Navigator.pop(context, true);
-          },
-          child:  StyledText(
-            inlineSpans: [
-              TextSpan(
-                  text: 'Already have an account?',
-                  style: TextStyle(color: Color(0xff8d8a9e))
-              ),
-              TextSpan(
-                text: '  Login',
-                style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    color: AppTheme.primaryColorLight),
-              ),
-            ],
-            textAlign: TextAlign.center,
+
+                  await model.signUpWithEmailAndPassword(
+                      context: context,
+                      email: _email.value.value.trim(),
+                      password: _password.value.value.trim(),
+                      name: _name.value.value.trim());
+                } : null),
           ),
-        ),
-        SizedBox(
-          height: 16,
-        ),
-      ],
+          SizedBox(
+            height: 32,
+          ),
+          GestureDetector(
+            onTap: () {
+              Navigator.pop(context, true);
+            },
+            child:  StyledText(
+              inlineSpans: [
+                TextSpan(
+                    text: 'Already have an account?',
+                    style: TextStyle(color: Color(0xff8d8a9e))
+                ),
+                TextSpan(
+                  text: '  Login',
+                  style: TextStyle(
+                      fontWeight: FontWeight.w500,
+                      color: AppTheme.primaryColorLight),
+                ),
+              ],
+              textAlign: TextAlign.center,
+            ),
+          ),
+          SizedBox(
+            height: 16,
+          ),
+        ],
+      ),
     );
   }
 
