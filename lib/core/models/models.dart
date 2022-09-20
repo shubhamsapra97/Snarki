@@ -37,7 +37,7 @@ class QuestionModel {
 
   @override
   String toString() {
-    return "Are you in a mood for\n $cuisineTag?";
+    return cuisineTag.toString();
   }
 }
 

@@ -1,3 +1,4 @@
+import 'package:client/core/core.dart';
 import 'package:flutter/material.dart';
 import 'package:client/injection.dart';
 import 'package:client/core/models/models.dart';
@@ -16,7 +17,7 @@ class _FeedbackFormState extends State<FeedbackForm> with Validator {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   final double minValue = 8.0;
-  final _feedbackTypeList = <String>["Comment", "Bug"];
+  final _feedbackTypeList = <String>["Comment", "Report Issue"];
 
   String _feedbackType = "";
 
@@ -167,23 +168,32 @@ class _FeedbackFormState extends State<FeedbackForm> with Validator {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.grey[50],
+        backgroundColor: AppTheme.primaryBackgroundColor,
         leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
-          color: Colors.black87,
+          color: Colors.white,
           onPressed: () {
             Navigator.pop(context, true);
           }),
         elevation: 1,
-        title: Text(
-          "Leave feedback",
-          style: TextStyle(color: Colors.black87),
-        ),
+          title: Text(
+            "S N A R K I",
+            style: TextStyle(
+                color: AppTheme.primaryColorLight,
+                fontWeight: FontWeight.w900
+            ),
+          ),
+        centerTitle: true,
         actions: <Widget>[
           TextButton(
               onPressed: submitFeedback,
-              child: Text("SEND")
-          )
+              child: Text(
+                "SEND",
+                style: TextStyle(
+                  color: Colors.white
+                ),
+              ),
+          ),
         ],
       ),
       body: ListView(

@@ -22,26 +22,22 @@ class _AppSettingsState extends State<SettingsView> {
       appBar: buildAppBar(
         context: context,
         automaticallyImplyLeading: true,
+        backgroundColor: AppTheme.primaryBackgroundColor,
         title: Text(
-          "Settings",
-          style: TextStyle(color: AppTheme.primaryColorDark),
+          "S N A R K I",
+          style: TextStyle(
+              color: AppTheme.primaryColorLight,
+              fontWeight: FontWeight.w900
+          ),
         ),
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
+            color: Colors.white,
             onPressed: () {
               Navigator.pop(context, true);
             }),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
         elevation: 0,
-        bottom: PreferredSize(
-          child: Container(
-            color: Colors.black.withOpacity(0.5),
-            width: double.infinity,
-            height: 0.5,
-          ),
-          preferredSize: Size.fromHeight(1),
-        ),
       ),
       body: Column(
         children: [
@@ -54,17 +50,17 @@ class _AppSettingsState extends State<SettingsView> {
                 defaultValue: 5.round().toDouble(),
                 min: 1,
                 max: 100,
-                leading: Icon(FontAwesome.globe)
+                leading: Icon(FontAwesome.globe),
               ),
               SimpleSettingsTile(
-                  leading: Icon(Icons.location_pin),
-                  title: 'Location',
-                  subtitle: 'Update your location',
-                  child: LocationPickerView(
-                      arguments: {
-                        'fetchLocation': false,
-                        'drawerRequired': false
-                      }),
+                leading: Icon(Icons.location_pin),
+                title: 'Location',
+                subtitle: 'Update your location',
+                child: LocationPickerView(
+                    arguments: {
+                      'fetchLocation': false,
+                      'drawerRequired': false
+                    }),
               )
             ],
           ),

@@ -10,6 +10,7 @@ class RaisedButtonCustom extends StatelessWidget {
   final double height;
   final Color? disabledColor;
   final Color? disabledTextColor;
+  final Color borderColor;
    final double borderRadius;
 
   const RaisedButtonCustom({
@@ -22,7 +23,9 @@ class RaisedButtonCustom extends StatelessWidget {
     this.width ,
     this.height = 46,
     this.disabledColor,
-    this.disabledTextColor, this.borderRadius = 10.0,
+    this.disabledTextColor,
+    this.borderRadius = 10.0,
+    this.borderColor = Colors.white
   }) : super(key: key);
 
   @override
@@ -41,11 +44,14 @@ class RaisedButtonCustom extends StatelessWidget {
           // Color: btnColor ?? Theme.of(context).accentColor,
           style: ElevatedButton.styleFrom(
             primary: btnColor ?? Colors.white,
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(borderRadius)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(borderRadius)
+            ),
             textStyle: Theme.of(context)
                 .textTheme
                 .button
                 ?.copyWith(color: btnTextColor),
+              side: BorderSide(width: 1, color: borderColor)
           ),
         child: child ??
               Text(

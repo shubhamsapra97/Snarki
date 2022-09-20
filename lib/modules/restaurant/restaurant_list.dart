@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'dart:convert';
 import 'package:client/core/core.dart';
+import 'package:client/main.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:client/core/shared_service/auth_service.dart';
@@ -38,41 +39,42 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
         elevation: 6.0,
         margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
         child: Container(
+          decoration: BoxDecoration(color: AppTheme.primaryBackgroundColor.withOpacity(0.8)),
           child: ListTile(
               contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
               leading: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: Colors.grey[500]!,
+                highlightColor: Colors.grey[300]!,
                 child: Container(
                   height: 60.0,
                   width: 60.0,
-                  color: Colors.grey[300],
+                  color: AppTheme.primaryBackgroundColor,
                 )
               ),
               title: Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                  baseColor: Colors.grey[500]!,
+                  highlightColor: Colors.grey[300]!,
                   child: Container(
                     height: 20.0,
-                    color: Colors.grey[300],
+                    color: AppTheme.primaryBackgroundColor,
                     margin: const EdgeInsets.only(bottom: 10.0),
                   )
               ),
               subtitle: Shimmer.fromColors(
-                  baseColor: Colors.grey[300]!,
-                  highlightColor: Colors.grey[100]!,
+                baseColor: Colors.grey[500]!,
+                highlightColor: Colors.grey[300]!,
                   child: Container(
                     height: 20.0,
-                    color: Colors.grey[300],
+                    color: AppTheme.primaryBackgroundColor,
                   ),
               ),
               trailing: Shimmer.fromColors(
-                baseColor: Colors.grey[300]!,
-                highlightColor: Colors.grey[100]!,
+                baseColor: Colors.grey[500]!,
+                highlightColor: Colors.grey[300]!,
                 child: Container(
                   height: 24,
                   width: 24,
-                  color: Colors.grey[300],
+                  color: AppTheme.primaryBackgroundColor,
                 ),
               ),
           ),
@@ -84,7 +86,7 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
       elevation: 6.0,
       margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
       child: Container(
-        decoration: BoxDecoration(color: AppTheme.secondaryColorLight),
+        decoration: BoxDecoration(color: AppTheme.primaryBackgroundColor.withOpacity(0.9)),
         child: ListTile(
           contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
           leading: Container(
@@ -187,16 +189,21 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
       builder: (context, model, child) => WillPopScope(
         onWillPop: _onBackPress,
         child: Scaffold(
+          backgroundColor: AppTheme.primaryBackgroundColor,
           appBar: buildAppBar(
             context: context,
             automaticallyImplyLeading: true,
             title: Text(
-              "Snarki",
-              style: TextStyle(color: AppTheme.primaryColorDark),
+              "S N A R K I",
+              style: TextStyle(
+                  color: AppTheme.primaryColorLight,
+                  fontWeight: FontWeight.w900
+              ),
             ),
             actions: [
               IconButton(
                   icon: Icon(Icons.info_outline),
+                  color: Colors.white,
                   onPressed: () {
                     ScaffoldMessenger.of(context).hideCurrentSnackBar();
                     var snackBar = SnackBar(content: Text('The Restaurant Distance is the exact difference between the 2 location coordinates. Traffic, shortest route and other geographical properties are not considered. Click on Arrow Icon for exact details.'));
@@ -205,6 +212,7 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
               ),
               IconButton(
                   icon: Icon(Icons.person),
+                  color: Colors.white,
                   onPressed: () {
                     if (isLoggedIn) {
                       Navigator.pushNamed(context, '/userProfile');
@@ -217,18 +225,11 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
             centerTitle: true,
             backgroundColor: Colors.transparent,
             elevation: 0,
-            bottom: PreferredSize(
-              child: Container(
-                color: Colors.black.withOpacity(0.5),
-                width: double.infinity,
-                height: 0.5,
-              ),
-              preferredSize: Size.fromHeight(1),
-            ),
+            iconThemeData: IconThemeData(color: Colors.white),
           ),
           floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
           floatingActionButton: FloatingActionButton(
-            backgroundColor: AppTheme.primaryColorDark,
+            backgroundColor: AppTheme.primaryColorLight,
             onPressed: () {
               Navigator.of(context).pushNamedAndRemoveUntil(
                   '/home', (Route<dynamic> route) => false);
@@ -240,7 +241,7 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
               ? ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 6,
+                itemCount: 2,
                 itemBuilder: (BuildContext context, int index) {
                   return makeCard(
                       restaurant: null,
@@ -273,7 +274,11 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
                           Text(
                               "No Restaurant found!!",
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  color: AppTheme.primaryColorLight,
+                                  fontWeight: FontWeight.w500
+                              ),
                           ),
                           SizedBox(
                             height: 10
@@ -285,7 +290,10 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
                                 "Go for different cuisines or broaden the search radius in settings."
                                 : "Snarki does not have your current location. Restart the app or allow access in Settings.",
                               textAlign: TextAlign.center,
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold
+                              ),
                             ),
                           ),
                         ],
