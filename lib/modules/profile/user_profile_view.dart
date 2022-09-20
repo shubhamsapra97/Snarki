@@ -15,18 +15,22 @@ class UserProfileView extends StatelessWidget {
       bottomNavigationBar: Container(height: 0.0),
       appBar: buildAppBar(
         context: context,
+        backgroundColor: AppTheme.primaryBackgroundColor,
         automaticallyImplyLeading: true,
         title: Text(
-          "Profile",
-          style: TextStyle(color: AppTheme.primaryColorDark),
+          "S N A R K I",
+          style: TextStyle(
+              color: AppTheme.primaryColorLight,
+              fontWeight: FontWeight.w900
+          ),
         ),
         leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
+            color: Colors.white,
             onPressed: () {
               Navigator.pop(context, true);
             }),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
         elevation: 0,
         bottom: PreferredSize(
           child: Container(

@@ -21,22 +21,32 @@ class ForgotPasswordView extends HookWidget {
         builder: (context, AuthViewModel model, child) => AuthView(
           // appBar: null,
           model: model,
-          formCard: _loginForm(context, model, media),
+          formCard: _forgotPasswordForm(context, model, media),
         ),
       ),
     );
   }
 
-  Widget _loginForm(context, AuthViewModel model, media) {
+  Widget _forgotPasswordForm(context, AuthViewModel model, media) {
     return Scaffold(
       appBar: buildAppBar(
           context: context,
-          backgroundColor: Colors.transparent,
+          backgroundColor:AppTheme.primaryBackgroundColor,
           title: Text(
-            'Recover password',
-            style: Theme.of(context).textTheme.subtitle1,
+            "S N A R K I",
+            style: TextStyle(
+                color: AppTheme.primaryColorLight,
+                fontWeight: FontWeight.w900
+            ),
           ),
+          centerTitle: true,
           elevation: 0,
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.pop(context, true);
+              }),
           automaticallyImplyLeading: true),
       body: SingleChildScrollView(
         child: Center(
@@ -44,12 +54,15 @@ class ForgotPasswordView extends HookWidget {
             SizedBox(
               height: 100,
             ),
-            Text(
-                'Enter the email of your \n account and we will send you the recovery link\n',
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.bodyText1),
+            Container(
+              width: media.screenSize.width * 0.75,
+              child: Text(
+                  'Enter the email of your account and we will send you the recovery link\n',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.bodyText1),
+            ),
             SizedBox(
-              height: 100,
+              height: 10,
             ),
             SizedBox(
                 width: media.screenSize.width * 0.7,
@@ -66,29 +79,30 @@ class ForgotPasswordView extends HookWidget {
                   },
                 )),
             SizedBox(
-              height: media.screenSize.height * 0.3,
+              height: 40,
             ),
             SizedBox(
-              width: media.screenSize.width * 0.7,
+              width: media.screenSize.width * 0.5,
               height: 48,
               child: RaisedButtonCustom(
-                      child: model.isBusy
-                          ? SizedBox(
-                            child: CircularProgressIndicator(
-                                valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
-                            height: 15,
-                            width: 15,
-                          ) :
-                          Text(
-                            "Submit",
-                          ),
-                      onPressed: _email.value.status == FormzInputStatus.valid
-                          ? () async {
-                              // TODO: Check if valid email and is registered.
-                              model.sendPasswordResetEmail(
-                                  _email.value.value.trim());
-                            }
-                          : null),
+                btnColor: AppTheme.primaryBackgroundColor,
+                child: model.isBusy ?
+                  SizedBox(
+                    child: CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+                    height: 15,
+                    width: 15,
+                  ) :
+                  Text(
+                    "Submit",
+                  ),
+                  onPressed: _email.value.status == FormzInputStatus.valid
+                  ? () async {
+                      // TODO: Check if valid email and is registered.
+                      model.sendPasswordResetEmail(
+                          _email.value.value.trim());
+                    }
+                  : null),
             ),
           ]),
         ),

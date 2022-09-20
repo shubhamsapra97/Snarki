@@ -20,15 +20,21 @@ class AppBarWidget extends StatelessWidget {
     bool isLoggedIn = getIt<AuthService>().currentUserDetails != null;
     return Scaffold(
         appBar: buildAppBar(
+            backgroundColor: AppTheme.primaryBackgroundColor,
             context: context,
             title: Text(
-              "Snarki",
-              style: TextStyle(color: AppTheme.primaryColorDark),
+              "S N A R K I",
+              style: TextStyle(
+                  color: AppTheme.primaryColorLight,
+                  fontWeight: FontWeight.w900
+              ),
             ),
+            iconThemeData: IconThemeData(color: Colors.white),
             automaticallyImplyLeading: true,
             actions: [
               IconButton(
                   icon: Icon(Icons.person),
+                  color: Colors.white,
                   onPressed: () {
                     if (isLoggedIn) {
                       Navigator.of(context).pushNamed('/userProfile');
@@ -38,10 +44,10 @@ class AppBarWidget extends StatelessWidget {
                   })
             ],
             centerTitle: true,
-            backgroundColor: Colors.transparent,
             elevation: 0,
             leading: !drawerRequired ? IconButton(
                 icon: Icon(Icons.arrow_back_ios),
+                color: Colors.white,
                 onPressed: () {
                   Navigator.pop(context, true);
                 }) : null,

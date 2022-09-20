@@ -5,6 +5,7 @@ class AppTheme {
   static Color primaryColor = HexColor("#5d5b6a");
   static Color primaryColorLight = HexColor("#cfb495");
   static Color primaryColorDark = HexColor("#5d5b6a");
+  static Color primaryBackgroundColor = HexColor("#5d5b69");
 
   static Color primaryTextColor = HexColor("#5d5b6a");
 

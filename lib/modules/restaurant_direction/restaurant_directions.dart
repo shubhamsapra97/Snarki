@@ -20,16 +20,21 @@ class RestaurantDirections extends StatefulWidget {
 }
 
 PreferredSizeWidget _appBar(final widgetArgs, BuildContext context) {
+  bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
   return buildAppBar(
     context: context,
     automaticallyImplyLeading: true,
     title: Text(
-      "Snarki",
-      style: TextStyle(color: AppTheme.primaryColorDark),
+      "S N A R K I",
+      style: TextStyle(
+          color: AppTheme.primaryColorLight,
+          fontWeight: FontWeight.w900
+      ),
     ),
     actions: [
       IconButton(
-        icon: Icon(Icons.ios_share_sharp),
+        icon: Icon(isIOS ? Icons.ios_share_sharp : Icons.share),
+        color: Colors.white,
         onPressed: () async {
           final box = context.findRenderObject() as RenderBox?;
 
@@ -50,6 +55,7 @@ PreferredSizeWidget _appBar(final widgetArgs, BuildContext context) {
     elevation: 0,
     leading: IconButton(
         icon: Icon(Icons.arrow_back_ios),
+        color: Colors.white,
         onPressed: () {
           Navigator.pop(context, true);
         }),
@@ -144,7 +150,7 @@ class _RestaurantDirections extends State<RestaurantDirections> {
             );
 
             return Scaffold(
-              backgroundColor: Color(0xfff5f5f5),
+              backgroundColor: AppTheme.primaryBackgroundColor,
               appBar: _appBar(widget.arguments, context),
               drawer: DrawerCustom(),
               body: SlidingUpPanel(
@@ -175,7 +181,7 @@ class _RestaurantDirections extends State<RestaurantDirections> {
                                     style: TextStyle(
                                       color: Colors.black,
                                       fontSize: 25,
-                                      fontWeight: FontWeight.w500,
+                                      fontWeight: FontWeight.w800,
                                       fontStyle: FontStyle.italic,
                                     ),
                                   ),

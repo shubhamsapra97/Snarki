@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:client/core/models/models.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:map_picker/map_picker.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -10,6 +9,7 @@ import 'package:client/core/shared_service/location.dart';
 import 'package:client/modules/common/app_bar.dart';
 import 'package:client/injection.dart';
 import 'package:client/core/shared_service/firebase_dynamic_links.dart';
+import 'package:client/core/core.dart';
 
 class LocationPickerView extends StatefulWidget {
   final Map<String, dynamic> arguments;
@@ -45,7 +45,6 @@ class _LocationPickerView extends State<LocationPickerView> {
             );
 
             return Scaffold(
-              backgroundColor: Color(0xfff5f5f5),
               body: Stack(
                 alignment: Alignment.topCenter,
                 children: [

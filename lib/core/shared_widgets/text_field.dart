@@ -64,7 +64,7 @@ class TextFieldCustom extends StatelessWidget {
     this.onChanged,
     this.errorText,
     this.initialValue,
-    this.borderWidth = 0.2,
+    this.borderWidth = 1,
   }) : super(key: key);
 
   Widget build(BuildContext context) {

@@ -1,5 +1,5 @@
 import 'package:client/core/shared_widgets/button.dart';
-import 'package:client/core/shared_widgets/rounded_card.dart';
+import 'package:client/core/core.dart';
 import 'package:client/core/utils/appTheme.dart';
 import 'package:flutter/material.dart';
 
@@ -7,20 +7,28 @@ class NotingSelected extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: buildAppBar(
+        backgroundColor: AppTheme.primaryBackgroundColor,
+        context: context,
+        title: Text(
+          "S N A R K I",
+          style: TextStyle(
+              color: AppTheme.primaryColorLight,
+              fontWeight: FontWeight.w900
+          ),
+        ),
+        automaticallyImplyLeading: true,
+        centerTitle: true,
+        elevation: 0,
+        iconThemeData: IconThemeData(color: Colors.white),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-
              Image.asset("assets/icon/icon.png", fit: BoxFit.cover, width: 100,),
-                
-              // CircleAvatar(
-              //   radius: 75,
-              //   child: Image.asset("assets/icon/icon.png", fit: BoxFit.cover,),
-              // //  backgroundImage: AssetImage("assets/icon/icon.png", ),
-              // ),
               SizedBox(
                 height: 70,
               ),
@@ -54,6 +62,7 @@ class NotingSelected extends StatelessWidget {
                 height: 50,
               ),
               RaisedButtonCustom(
+                btnColor: AppTheme.primaryColorLight,
                 onPressed: () {
                   Navigator.pop(context, true);
                 },

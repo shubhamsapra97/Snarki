@@ -43,52 +43,77 @@ class SignUpView extends HookWidget {
 
   Widget _signupForm(context, AuthViewModel model, media) {
     return SingleChildScrollView(
-      child: Column(children: [
-        _topPart(context),
-        SizedBox(height: media.screenSize.height * 0.01),
-        _bottomPart(model, media),
-        SizedBox(height: media.screenSize.height * 0.1),
-        _lastPart(context,model, media)
-      ]),
+      child: Container(
+        color: AppTheme.primaryBackgroundColor,
+        child: Column(children: [
+          _topPart(context),
+          SizedBox(height: media.screenSize.height * 0.1),
+          _bottomPart(model, media),
+          SizedBox(height: media.screenSize.height * 0.05),
+          _lastPart(context,model, media)
+        ]),
+      ),
     );
   }
 
   Widget _topPart(context) {
-    return ClipPath(
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 32),
-        height: MediaQuery.of(context).size.height * 0.4,
-        width: double.infinity,
-          color: Color(0xff5d5b6a),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-            Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  color: Color(0xfff5cdaa),
-                  onPressed: () {
-                    Navigator.pop(context, true);
-                  }),
-              Text("Welcome",
-                  style: Theme.of(context).textTheme.headline4?.copyWith(
-                      color:  Color(0xfff5cdaa), fontWeight: FontWeight.bold))
-            ]),
-              SizedBox(
-                height: 16,
+    bool isIos = Theme
+        .of(context)
+        .platform == TargetPlatform.iOS;
+    return Stack(
+      children: [
+        ClipPath(
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 32),
+            height: MediaQuery.of(context).size.height * 0.4,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/login.png"),
+                fit: BoxFit.cover,
               ),
-              Text(
-                  "We are so proud to have you onboard. Discover your favourite food restaurants with Snarki",
-                  style: Theme.of(context).textTheme.subtitle1?.copyWith(
-                        color: Colors.white,
-                      )),
-            ]),
-      ),
-      clipper: CurveClipper(),
+            ),
+          ),
+          clipper: CurveClipper(),
+        ),
+        Positioned(
+          left: 20,
+          bottom: 0,
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("Welcome!",
+                    style: Theme.of(context).textTheme.headline4?.copyWith(
+                        color: Color(0xfff5cdaa),
+                        fontWeight: FontWeight.w200,
+                        fontSize: 30
+                    )),
+                SizedBox(
+                  height: 8,
+                ),
+                Text(
+                    "Snarki",
+                    style: Theme.of(context).textTheme.headline4?.copyWith(
+                        color: Color(0xfff5cdaa),
+                        fontWeight: FontWeight.w400,
+                        fontSize: 30
+                    )),
+              ]),
+        ),
+        if (isIos) ...[
+          Positioned(
+            left: 10,
+            top: 50,
+            child: IconButton(
+                icon: Icon(Icons.arrow_back_ios),
+                color: Colors.white,
+                iconSize: 35,
+                onPressed: () {
+                  Navigator.pop(context, true);
+                }),
+          )],
+      ],
     );
   }
 
@@ -100,6 +125,7 @@ class SignUpView extends HookWidget {
           width: media.screenSize.width * 0.7,
           height: 48,
           child: RaisedButtonCustom(
+              btnColor: AppTheme.primaryColorLight,
               child: model.isBusy
                   ? SizedBox(
                     child: CircularProgressIndicator(
@@ -107,9 +133,14 @@ class SignUpView extends HookWidget {
                     height: 15,
                     width: 15,
                   )
-                  : Text(
-                      "Sign Up",
-                    ),
+                  :
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Sign Up"),
+                      Icon(Icons.arrow_right_alt, color: Colors.white)
+                    ],
+                  ),
               onPressed: _validationState.value == FormzStatus.valid
                     ? () async {
                       
@@ -131,7 +162,8 @@ class SignUpView extends HookWidget {
             inlineSpans: [
               TextSpan(
                   text: 'Already have an account?',
-                  style: Theme.of(context).textTheme.bodyText2),
+                  style: TextStyle(color: Color(0xff8d8a9e))
+              ),
               TextSpan(
                 text: '  Login',
                 style: TextStyle(
@@ -154,13 +186,16 @@ class SignUpView extends HookWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(
-            width: media.screenSize.width * 0.7,
+            width: media.screenSize.width * 0.9,
             child: TextFieldCustom(
               hintText: "Name",
               prefixIconData: Icons.person,
               borderSide: true,
-           
-              backgroundColor: Colors.white,
+              textColor: Colors.white,
+              hintTextColor: Color(0xffaba7be),
+              backgroundColor: Color(0xff6a667d),
+              prefixIconColor: AppTheme.primaryColorLight,
+              borderColor: Color(0xffaaa6bd),
               errorText: _name.value.status == FormzInputStatus.invalid
                   ? _name.value.nameValidator.errorText
                   : null,
@@ -175,14 +210,16 @@ class SignUpView extends HookWidget {
           height: 16,
         ),
         SizedBox(
-            width: media.screenSize.width * 0.7,
+            width: media.screenSize.width * 0.9,
             child: TextFieldCustom(
               hintText: "Email",
               prefixIconData: Icons.email,
               borderSide: true,
-           
-              backgroundColor: Colors.white,
-             
+              textColor: Colors.white,
+              hintTextColor: Color(0xffaba7be),
+              backgroundColor: Color(0xff6a667d),
+              prefixIconColor: AppTheme.primaryColorLight,
+              borderColor: Color(0xffaaa6bd),
               errorText: _email.value.status == FormzInputStatus.invalid
                   ? _email.value.emailValidator.errorText
                   : null,
@@ -196,14 +233,17 @@ class SignUpView extends HookWidget {
           height: 16,
         ),
         SizedBox(
-            width: media.screenSize.width * 0.7,
+            width: media.screenSize.width * 0.9,
             child: TextFieldCustom(
               hintText: "Password",
               obscureText: true,
               prefixIconData: Icons.lock,
               borderSide: true,
-            
-              backgroundColor: Colors.white,
+              textColor: Colors.white,
+              hintTextColor: Color(0xffaba7be),
+              backgroundColor: Color(0xff6a667d),
+              prefixIconColor: AppTheme.primaryColorLight,
+              borderColor: Color(0xffaaa6bd),
               errorText: _password.value.status == FormzInputStatus.invalid
                   ? _password.value.passwordValidator.errorText
                   : null,
@@ -217,14 +257,17 @@ class SignUpView extends HookWidget {
           height: 16,
         ),
         SizedBox(
-            width: media.screenSize.width * 0.7,
+            width: media.screenSize.width * 0.9,
             child: TextFieldCustom(
               hintText: "Re-type Password",
               obscureText: true,
               prefixIconData: Icons.lock,
               borderSide: true,
-            
-              backgroundColor: Colors.white,
+              textColor: Colors.white,
+              hintTextColor: Color(0xffaba7be),
+              backgroundColor: Color(0xff6a667d),
+              prefixIconColor: AppTheme.primaryColorLight,
+              borderColor: Color(0xffaaa6bd),
               errorText: _repassword.value.status == FormzInputStatus.invalid
                   ? _repassword.value.matchValidator.errorText
                   : null,

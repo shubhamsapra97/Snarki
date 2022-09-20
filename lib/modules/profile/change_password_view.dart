@@ -28,26 +28,30 @@ class ChangePassword extends HookWidget {
       viewModelBuilder: () => getIt<ProfileViewModel>(),
       builder: (context, model, child) => Scaffold(
         appBar: buildAppBar(
-            context: context,
-            title: Text(
-              "Change Password",
-              style: TextStyle(color: AppTheme.primaryColorDark),
+          backgroundColor: AppTheme.primaryBackgroundColor,
+          context: context,
+          title: Text(
+            "S N A R K I",
+            style: TextStyle(
+                color: AppTheme.primaryColorLight,
+                fontWeight: FontWeight.w900
             ),
-            leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios),
-                onPressed: () {
-                  Navigator.pop(context, true);
-                }),
-            centerTitle: true,
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            bottom: PreferredSize(
-                child: Container(
-                  color: Colors.black.withOpacity(0.5),
-                  width: double.infinity,
-                  height: 0.5,
-                ),
-                preferredSize: Size.fromHeight(1))),
+          ),
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              color: Colors.white,
+              onPressed: () {
+                Navigator.pop(context, true);
+              }),
+          centerTitle: true,
+          elevation: 0,
+          bottom: PreferredSize(
+              child: Container(
+                color: Colors.black.withOpacity(0.5),
+                width: double.infinity,
+                height: 0.5,
+              ),
+              preferredSize: Size.fromHeight(1))),
         body: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(32.0),
@@ -129,24 +133,26 @@ class ChangePassword extends HookWidget {
                     width: media.width,
                     height: 48,
                     child: RaisedButtonCustom(
-                        child:  model.isBusy
-                  ? SizedBox(
-                      child: CircularProgressIndicator(
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
-                      height: 15,
-                      width: 15
-                    )
-                  :  Text(
-                          "Update",
-                        ),
-                        onPressed: _validationState.value == FormzStatus.valid
-                            ? () async {
-                                await model.changePassword(
-                                    newPassword: _repassword.value.value.trim(),
-                                    currentPassword:
-                                        _currentPassword.value.value.trim());
-                              }
-                            : null),
+                      btnColor: AppTheme.primaryBackgroundColor,
+                      borderColor: Colors.white,
+                      child:  model.isBusy
+                      ? SizedBox(
+                        child: CircularProgressIndicator(
+                            valueColor: AlwaysStoppedAnimation<Color>(Colors.white)),
+                        height: 15,
+                        width: 15
+                      ) :
+                      Text(
+                        "Update",
+                      ),
+                      onPressed: _validationState.value == FormzStatus.valid
+                        ? () async {
+                          await model.changePassword(
+                              newPassword: _repassword.value.value.trim(),
+                              currentPassword:
+                                  _currentPassword.value.value.trim());
+                        } : null
+                    ),
                   ),
                   SizedBox(
                     height: 32,

@@ -6,11 +6,16 @@ class CurveClipper extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     Path path = new Path();
-     // path starts with (0.0, 0.0) point (1)
-    path.lineTo(0.0, size.height - 50);
-    path.quadraticBezierTo(
-        size.width / 2, size.height, size.width, size.height - 100);
+    path.lineTo(0, size.height/5);
+    path.lineTo(size.width/4, size.height/2.5);
+    path.lineTo(size.width/4, size.height/1.8);
+    path.lineTo(size.width/3, size.height/1.9);
+    path.lineTo(size.width/1.8, size.height/1.4);
+    path.lineTo(size.width/1.8, size.height);
+    path.lineTo(size.width/1.2, size.height/1.2);
+    path.lineTo(size.width, size.height);
     path.lineTo(size.width, 0.0);
+    path.close();
     return path;
   }
 
