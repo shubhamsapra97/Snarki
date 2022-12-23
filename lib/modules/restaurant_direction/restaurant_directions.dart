@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:async/async.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -19,8 +20,21 @@ class RestaurantDirections extends StatefulWidget {
   _RestaurantDirections createState() => _RestaurantDirections();
 }
 
-PreferredSizeWidget _appBar(final widgetArgs, BuildContext context) {
+PreferredSizeWidget _appBar(final widgetArgs, BuildContext context, double animationValue) {
   bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+  var listRadius = [40.0, 48.0];
+
+  Widget rippleContainer(radius) {
+    return Container(
+      width: radius * animationValue,
+      height: radius * animationValue,
+      decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: Colors.grey[500]!.withOpacity(1.0 - animationValue)
+      ),
+    );
+  }
+
   return buildAppBar(
     context: context,
     automaticallyImplyLeading: true,
@@ -32,23 +46,33 @@ PreferredSizeWidget _appBar(final widgetArgs, BuildContext context) {
       ),
     ),
     actions: [
-      IconButton(
-        icon: Icon(isIOS ? Icons.ios_share_sharp : Icons.share),
-        color: Colors.white,
-        onPressed: () async {
-          final box = context.findRenderObject() as RenderBox?;
+      Padding(
+        padding: EdgeInsets.only(right: 5.0),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            rippleContainer(listRadius[0]),
+            rippleContainer(listRadius[1]),
+            IconButton(
+                icon: Icon(isIOS ? Icons.ios_share_sharp : Icons.share),
+                color: Colors.white,
+                onPressed: () async {
+                  final box = context.findRenderObject() as RenderBox?;
 
-          var url = await FirebaseDynamicLinkService.createDynamicLink(
-              true,
-              widgetArgs['restaurant']
-          );
-          Share.share(
-            '''Hey, Checkout ${widgetArgs['restaurant']['name']} restaurant, known for ${widgetArgs['restaurant']['cuisines'].join(", ")}. $url''',
-            subject: "Snarki - Your Personal Restaurant Selector",
-            sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size
-          );
-        }
-      )
+                  var url = await FirebaseDynamicLinkService.createDynamicLink(
+                      true,
+                      widgetArgs['restaurant']
+                  );
+                  Share.share(
+                      '''Hey, Checkout ${widgetArgs['restaurant']['name']} restaurant, known for ${widgetArgs['restaurant']['cuisines'].join(", ")}. $url''',
+                      subject: "Snarki - Your Personal Restaurant Selector",
+                      sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size
+                  );
+                }
+            )
+          ],
+        ),
+      ),
     ],
     centerTitle: true,
     backgroundColor: Colors.transparent,
@@ -70,53 +94,44 @@ PreferredSizeWidget _appBar(final widgetArgs, BuildContext context) {
   );
 }
 
-class _RestaurantDirections extends State<RestaurantDirections> {
+class _RestaurantDirections extends State<RestaurantDirections> with TickerProviderStateMixin {
   late CameraPosition cameraPosition;
+  List<Marker> markers = [];
+  late AnimationController _animationController;
   final _controller = Completer<GoogleMapController>();
+  final AsyncMemoizer _memoizer = AsyncMemoizer();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _animationController = AnimationController(
+      duration: const Duration(seconds: 4),
+      vsync: this,
+      lowerBound: 0.5
+    );
+
+    _animationController.addListener(() {
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(context) {
-    List<Marker> markers = [];
-    bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
-
-    loadMarker(isIOS, 'assets/food_marker.png').then((icon) {
-      markers.add(Marker(
-          markerId: MarkerId('Destination'),
-          position: LatLng(widget.arguments['restaurantLatitude'], widget.arguments['restaurantLongitude']),
-          infoWindow: InfoWindow(
-            title: "Restaurant",
-            snippet: widget.arguments["restaurant"]["name"],
-          ),
-          icon: icon
-      ));
-    });
-
-    markers.add(Marker(
-      markerId: MarkerId('Source'),
-      position: LatLng(widget.arguments['userLatitude'], widget.arguments['userLongitude']),
-      infoWindow: InfoWindow(
-        title: "Your Location",
-      ),
-    ));
 
     cameraPosition = CameraPosition(
       target: LatLng(widget.arguments['userLatitude'], widget.arguments['userLongitude']),
       zoom: 11,
     );
 
-    return FutureBuilder<Map<dynamic, dynamic>>(
-        future: getDirectionsAPIResponse(
-            LatLng(widget.arguments['userLatitude'],
-                widget.arguments['userLongitude']),
-            LatLng(widget.arguments['restaurantLatitude'],
-                widget.arguments['restaurantLongitude'])
-        ),
-        builder: (context, AsyncSnapshot<Map<dynamic, dynamic>> snapshot) {
+    return FutureBuilder<dynamic>(
+        future: _fetchRestaurantDirections(),
+        builder: (context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.hasData) {
             var data = snapshot.data!;
             if (data['error'] != null) {
               return Scaffold(
-                  appBar: _appBar(widget.arguments, context),
+                  appBar: _appBar(widget.arguments, context, 0.0),
                   backgroundColor: Color(0xfff5f5f5),
                   body: Center(
                     child: Padding(
@@ -131,6 +146,8 @@ class _RestaurantDirections extends State<RestaurantDirections> {
                   ),
               );
             }
+
+            _animationController.forward();
 
             List<Polyline> polyLineList = [];
             polyLineList.add(
@@ -151,7 +168,7 @@ class _RestaurantDirections extends State<RestaurantDirections> {
 
             return Scaffold(
               backgroundColor: AppTheme.primaryBackgroundColor,
-              appBar: _appBar(widget.arguments, context),
+              appBar: _appBar(widget.arguments, context, _animationController.value),
               drawer: DrawerCustom(),
               body: SlidingUpPanel(
                   minHeight: 95,
@@ -192,20 +209,20 @@ class _RestaurantDirections extends State<RestaurantDirections> {
                   ),
                   ),
                   body: GoogleMap(
-                      myLocationEnabled: true,
-                      zoomControlsEnabled: true,
-                      myLocationButtonEnabled: true,
-                      mapType: MapType.normal,
-                      initialCameraPosition: cameraPosition,
-                      onMapCreated: (GoogleMapController controller) {
-                        _controller.complete(controller);
-                      },
-                      onCameraMove: (cameraPosition) {
-                        this.cameraPosition = cameraPosition;
-                      },
-                      polylines: Set.from(polyLineList),
-                      markers: Set.from(markers),
-                    ),
+                    myLocationEnabled: true,
+                    zoomControlsEnabled: true,
+                    myLocationButtonEnabled: true,
+                    mapType: MapType.normal,
+                    initialCameraPosition: cameraPosition,
+                    onMapCreated: (GoogleMapController controller) {
+                      _controller.complete(controller);
+                    },
+                    onCameraMove: (cameraPosition) {
+                      this.cameraPosition = cameraPosition;
+                    },
+                    polylines: Set.from(polyLineList),
+                    markers: Set.from(markers),
+                  ),
                   borderRadius: radius,
               ),
             );
@@ -219,6 +236,38 @@ class _RestaurantDirections extends State<RestaurantDirections> {
           );
         }
     );
+  }
+
+  Future<dynamic> _fetchRestaurantDirections() {
+    return this._memoizer.runOnce(() async {
+      bool isIOS = Theme.of(context).platform == TargetPlatform.iOS;
+      loadMarker(isIOS, 'assets/food_marker.png').then((icon) {
+        markers.add(Marker(
+            markerId: MarkerId('Destination'),
+            position: LatLng(widget.arguments['restaurantLatitude'], widget.arguments['restaurantLongitude']),
+            infoWindow: InfoWindow(
+              title: "Restaurant",
+              snippet: widget.arguments["restaurant"]["name"],
+            ),
+            icon: icon
+        ));
+      });
+
+      markers.add(Marker(
+        markerId: MarkerId('Source'),
+        position: LatLng(widget.arguments['userLatitude'], widget.arguments['userLongitude']),
+        infoWindow: InfoWindow(
+          title: "Your Location",
+        ),
+      ));
+
+      return getDirectionsAPIResponse(
+          LatLng(widget.arguments['userLatitude'],
+              widget.arguments['userLongitude']),
+          LatLng(widget.arguments['restaurantLatitude'],
+              widget.arguments['restaurantLongitude'])
+      );
+    });
   }
 }
 
