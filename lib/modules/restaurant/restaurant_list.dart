@@ -102,7 +102,7 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
               children: [
                 Icon(Icons.restaurant,color: Colors.white),
                 Text(
-                  userLocation != null ? '~ ' + restaurant['distance'].toStringAsFixed(1) + ' miles' : '',
+                  userLocation != null ? '~ ' + restaurant['distance'].toStringAsFixed(2) + ' miles' : '',
                     style: TextStyle(color: Colors.white, fontSize: 12)
                 )
               ],

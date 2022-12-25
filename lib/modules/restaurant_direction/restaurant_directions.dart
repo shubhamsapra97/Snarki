@@ -130,6 +130,8 @@ class _RestaurantDirections extends State<RestaurantDirections> with TickerProvi
           if (snapshot.hasData) {
             var data = snapshot.data!;
             if (data['error'] != null) {
+
+              // HANDLE UI FOR THIS SCREEN
               return Scaffold(
                   appBar: _appBar(widget.arguments, context, 0.0),
                   backgroundColor: Color(0xfff5f5f5),
