@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'dart:convert';
 import 'package:client/core/core.dart';
-import 'package:client/main.dart';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:client/core/shared_service/auth_service.dart';
@@ -83,62 +82,103 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
     }
 
     return Card(
-      elevation: 6.0,
-      margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-      child: Container(
-        decoration: BoxDecoration(color: AppTheme.primaryBackgroundColor.withOpacity(0.9)),
-        child: ListTile(
-          contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-          leading: Container(
-            padding: EdgeInsets.only(right: 12.0),
-            decoration: new BoxDecoration(
-              border: new Border(
-                right: new BorderSide(width: 1.0, color: Colors.white24)
-              ),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Icon(Icons.restaurant,color: Colors.white),
-                Text(
-                  userLocation != null ? '~ ' + restaurant['distance'].toStringAsFixed(2) + ' miles' : '',
-                    style: TextStyle(color: Colors.white, fontSize: 12)
+        elevation: 4.0,
+        margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
+        child: Container(
+          decoration: BoxDecoration(color: AppTheme.primaryColorDark.withOpacity(0.3)),
+          child: Column(
+            children: [
+              ListTile(
+                title: Text(
+                    restaurant['name'],
+                    style: TextStyle(
+                        color: Color(0xFFcfb495),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                    ),
+                ),
+                subtitle: Text(
+                    '${restaurant['address']}, ${restaurant['city']}, ${restaurant['state']}, ${restaurant['postalCode']}',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
+                ),
+                trailing: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                        restaurant["priceRating"].length > 0 ? restaurant["priceRating"] : '',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold
+                        )
+                    ),
+                    Text(
+                        userLocation != null ? '~ ' + restaurant['distance'].toStringAsFixed(restaurant['distance'] > 0 ? 2 : 0) + ' miles' : '',
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold
+                        )
+                    ),
+                  ],
                 )
-              ],
-            )
-          ),
-          title: Text(
-              restaurant['name'],
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-          ),
-          subtitle: Row(
-            children: <Widget>[
-              // Icon(Icons.linear_scale, color: Colors.yellowAccent),
-              Flexible(
-                  child: Text(
-                  '${restaurant['address']}, ${restaurant['city']}, ${restaurant['state']}, ${restaurant['postalCode']}',
-                  style: TextStyle(color: Colors.white, fontSize: 12)
-              ))
+              ),
+              Container(
+                height: 200.0,
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage("assets/details.jpg"),
+                        fit: BoxFit.fitWidth,
+                        colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
+                    )
+                ),
+                child: restaurant['images']['mainPhoto'].length > 0 ? Image(
+                  image: NetworkImage('https://snarki-restaurant-images.s3.amazonaws.com${restaurant["images"]["mainPhoto"]}'),
+                  alignment: Alignment.center,
+                  height: double.infinity,
+                  width: double.infinity,
+                  fit: BoxFit.cover,
+                ) : Image(
+                  image: AssetImage("assets/sidebarLogo.png"),
+                ),
+              ),
+              OutlinedButton.icon(
+                  style: OutlinedButton.styleFrom(
+                    minimumSize: const Size.fromHeight(50),
+                    side: BorderSide(
+                      color: Colors.transparent,
+                    ),
+                  ),
+                  onPressed: () async {
+                    Navigator.of(context).pushNamed(
+                        '/restaurantDirections',
+                        arguments: {
+                          'restaurant': restaurant,
+                          'userLatitude': userLocation['lat'],
+                          'userLongitude': userLocation['lng'],
+                          'restaurantLatitude': restaurant['location'].coordinates[1],
+                          'restaurantLongitude': restaurant['location'].coordinates[0]
+                        }
+                    );
+                  },
+                  icon: const Icon(
+                      Icons.navigate_next,
+                      color: Color(0xFF5d5b6a),
+                      size: 25
+                  ),
+                  label: const Text(
+                      'Restaurant Details',
+                      style: TextStyle(
+                          color: Color(0xFF5d5b6a),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold
+                      )
+                  )
+              ),
             ],
-          ),
-          trailing: IconButton(
-            icon: new Icon(Icons.keyboard_arrow_right, color: Colors.white, size: 30.0),
-            onPressed: () async {
-              Navigator.of(context).pushNamed(
-                  '/restaurantDirections',
-                  arguments: {
-                    'restaurant': restaurant,
-                    'userLatitude': userLocation['lat'],
-                    'userLongitude': userLocation['lng'],
-                    'restaurantLatitude': restaurant['location'].coordinates[1],
-                    'restaurantLongitude': restaurant['location'].coordinates[0]
-                  }
-              );
-            },
           )
         ),
-      ),
     );
   }
 
@@ -201,15 +241,6 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
               ),
             ),
             actions: [
-              IconButton(
-                  icon: Icon(Icons.info_outline),
-                  color: Colors.white,
-                  onPressed: () {
-                    ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                    var snackBar = SnackBar(content: Text('The Restaurant Distance is the exact difference between the 2 location coordinates. Traffic, shortest route and other geographical properties are not considered. Click on Arrow Icon for exact details.'));
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                  },
-              ),
               IconButton(
                   icon: Icon(Icons.person),
                   color: Colors.white,

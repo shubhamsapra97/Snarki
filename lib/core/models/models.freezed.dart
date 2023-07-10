@@ -194,7 +194,10 @@ class _$RestaurantTearOff {
       required String hours,
       required List<String> cuisines,
       required Geometry location,
-      required String website}) {
+      required String website,
+      required List<String> socialMediaLinks,
+      required Map<String, dynamic> images,
+      required String priceRating}) {
     return _Restaurant(
       restaurantId: restaurantId,
       restaurantName: restaurantName,
@@ -207,6 +210,9 @@ class _$RestaurantTearOff {
       cuisines: cuisines,
       location: location,
       website: website,
+      socialMediaLinks: socialMediaLinks,
+      images: images,
+      priceRating: priceRating,
     );
   }
 
@@ -233,6 +239,9 @@ mixin _$Restaurant {
   List<String> get cuisines => throw _privateConstructorUsedError;
   Geometry get location => throw _privateConstructorUsedError;
   String get website => throw _privateConstructorUsedError;
+  List<String> get socialMediaLinks => throw _privateConstructorUsedError;
+  Map<String, dynamic> get images => throw _privateConstructorUsedError;
+  String get priceRating => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -256,7 +265,10 @@ abstract class $RestaurantCopyWith<$Res> {
       String hours,
       List<String> cuisines,
       Geometry location,
-      String website});
+      String website,
+      List<String> socialMediaLinks,
+      Map<String, dynamic> images,
+      String priceRating});
 
   $GeometryCopyWith<$Res> get location;
 }
@@ -282,6 +294,9 @@ class _$RestaurantCopyWithImpl<$Res> implements $RestaurantCopyWith<$Res> {
     Object? cuisines = freezed,
     Object? location = freezed,
     Object? website = freezed,
+    Object? socialMediaLinks = freezed,
+    Object? images = freezed,
+    Object? priceRating = freezed,
   }) {
     return _then(_value.copyWith(
       restaurantId: restaurantId == freezed
@@ -328,6 +343,18 @@ class _$RestaurantCopyWithImpl<$Res> implements $RestaurantCopyWith<$Res> {
           ? _value.website
           : website // ignore: cast_nullable_to_non_nullable
               as String,
+      socialMediaLinks: socialMediaLinks == freezed
+          ? _value.socialMediaLinks
+          : socialMediaLinks // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      images: images == freezed
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+      priceRating: priceRating == freezed
+          ? _value.priceRating
+          : priceRating // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 
@@ -356,7 +383,10 @@ abstract class _$RestaurantCopyWith<$Res> implements $RestaurantCopyWith<$Res> {
       String hours,
       List<String> cuisines,
       Geometry location,
-      String website});
+      String website,
+      List<String> socialMediaLinks,
+      Map<String, dynamic> images,
+      String priceRating});
 
   @override
   $GeometryCopyWith<$Res> get location;
@@ -385,6 +415,9 @@ class __$RestaurantCopyWithImpl<$Res> extends _$RestaurantCopyWithImpl<$Res>
     Object? cuisines = freezed,
     Object? location = freezed,
     Object? website = freezed,
+    Object? socialMediaLinks = freezed,
+    Object? images = freezed,
+    Object? priceRating = freezed,
   }) {
     return _then(_Restaurant(
       restaurantId: restaurantId == freezed
@@ -431,6 +464,18 @@ class __$RestaurantCopyWithImpl<$Res> extends _$RestaurantCopyWithImpl<$Res>
           ? _value.website
           : website // ignore: cast_nullable_to_non_nullable
               as String,
+      socialMediaLinks: socialMediaLinks == freezed
+          ? _value.socialMediaLinks
+          : socialMediaLinks // ignore: cast_nullable_to_non_nullable
+              as List<String>,
+      images: images == freezed
+          ? _value.images
+          : images // ignore: cast_nullable_to_non_nullable
+              as Map<String, dynamic>,
+      priceRating: priceRating == freezed
+          ? _value.priceRating
+          : priceRating // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -449,7 +494,10 @@ class _$_Restaurant with DiagnosticableTreeMixin implements _Restaurant {
       required this.hours,
       required this.cuisines,
       required this.location,
-      required this.website});
+      required this.website,
+      required this.socialMediaLinks,
+      required this.images,
+      required this.priceRating});
 
   factory _$_Restaurant.fromJson(Map<String, dynamic> json) =>
       _$$_RestaurantFromJson(json);
@@ -478,10 +526,16 @@ class _$_Restaurant with DiagnosticableTreeMixin implements _Restaurant {
   final Geometry location;
   @override
   final String website;
+  @override
+  final List<String> socialMediaLinks;
+  @override
+  final Map<String, dynamic> images;
+  @override
+  final String priceRating;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'Restaurant(restaurantId: $restaurantId, restaurantName: $restaurantName, address: $address, city: $city, state: $state, postalCode: $postalCode, contact: $contact, hours: $hours, cuisines: $cuisines, location: $location, website: $website)';
+    return 'Restaurant(restaurantId: $restaurantId, restaurantName: $restaurantName, address: $address, city: $city, state: $state, postalCode: $postalCode, contact: $contact, hours: $hours, cuisines: $cuisines, location: $location, website: $website, socialMediaLinks: $socialMediaLinks, images: $images, priceRating: $priceRating)';
   }
 
   @override
@@ -499,7 +553,10 @@ class _$_Restaurant with DiagnosticableTreeMixin implements _Restaurant {
       ..add(DiagnosticsProperty('hours', hours))
       ..add(DiagnosticsProperty('cuisines', cuisines))
       ..add(DiagnosticsProperty('location', location))
-      ..add(DiagnosticsProperty('website', website));
+      ..add(DiagnosticsProperty('website', website))
+      ..add(DiagnosticsProperty('socialMediaLinks', socialMediaLinks))
+      ..add(DiagnosticsProperty('images', images))
+      ..add(DiagnosticsProperty('priceRating', priceRating));
   }
 
   @override
@@ -534,7 +591,16 @@ class _$_Restaurant with DiagnosticableTreeMixin implements _Restaurant {
                 const DeepCollectionEquality()
                     .equals(other.location, location)) &&
             (identical(other.website, website) ||
-                const DeepCollectionEquality().equals(other.website, website)));
+                const DeepCollectionEquality()
+                    .equals(other.website, website)) &&
+            (identical(other.socialMediaLinks, socialMediaLinks) ||
+                const DeepCollectionEquality()
+                    .equals(other.socialMediaLinks, socialMediaLinks)) &&
+            (identical(other.images, images) ||
+                const DeepCollectionEquality().equals(other.images, images)) &&
+            (identical(other.priceRating, priceRating) ||
+                const DeepCollectionEquality()
+                    .equals(other.priceRating, priceRating)));
   }
 
   @override
@@ -550,7 +616,10 @@ class _$_Restaurant with DiagnosticableTreeMixin implements _Restaurant {
       const DeepCollectionEquality().hash(hours) ^
       const DeepCollectionEquality().hash(cuisines) ^
       const DeepCollectionEquality().hash(location) ^
-      const DeepCollectionEquality().hash(website);
+      const DeepCollectionEquality().hash(website) ^
+      const DeepCollectionEquality().hash(socialMediaLinks) ^
+      const DeepCollectionEquality().hash(images) ^
+      const DeepCollectionEquality().hash(priceRating);
 
   @JsonKey(ignore: true)
   @override
@@ -575,7 +644,10 @@ abstract class _Restaurant implements Restaurant {
       required String hours,
       required List<String> cuisines,
       required Geometry location,
-      required String website}) = _$_Restaurant;
+      required String website,
+      required List<String> socialMediaLinks,
+      required Map<String, dynamic> images,
+      required String priceRating}) = _$_Restaurant;
 
   factory _Restaurant.fromJson(Map<String, dynamic> json) =
       _$_Restaurant.fromJson;
@@ -604,6 +676,12 @@ abstract class _Restaurant implements Restaurant {
   Geometry get location => throw _privateConstructorUsedError;
   @override
   String get website => throw _privateConstructorUsedError;
+  @override
+  List<String> get socialMediaLinks => throw _privateConstructorUsedError;
+  @override
+  Map<String, dynamic> get images => throw _privateConstructorUsedError;
+  @override
+  String get priceRating => throw _privateConstructorUsedError;
   @override
   @JsonKey(ignore: true)
   _$RestaurantCopyWith<_Restaurant> get copyWith =>

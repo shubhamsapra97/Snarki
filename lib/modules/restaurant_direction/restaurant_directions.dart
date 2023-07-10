@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:async/async.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:client/core/shared_widgets/app_bar.dart';
 import 'package:client/modules/restaurant_direction/directions_handler.dart';
@@ -12,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:client/core/shared_service/firebase_dynamic_links.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class RestaurantDirections extends StatefulWidget {
   final Map<String, dynamic> arguments;
@@ -279,6 +281,16 @@ Widget _panelBody(
   dynamic arguments,
   dynamic data)
 {
+  var socialMediaLinkType = "";
+  if (arguments['restaurant']['socialMediaLinks'].length > 0) {
+    var socialMediaLink = arguments['restaurant']['socialMediaLinks'][0].toLowerCase();
+    if (socialMediaLink.contains("instagram")) {
+      socialMediaLinkType = "Instagram";
+    } else if (socialMediaLink.contains("facebook")) {
+      socialMediaLinkType = "Facebook";
+    }
+  }
+
   return new Stack(
     children: <Widget>[
       new Container(
@@ -309,12 +321,67 @@ Widget _panelBody(
             height: 20,
           ),
           Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children:<Widget>[
+                Flexible(
+                  child: Text(
+                    arguments['restaurant']['name'],
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 25,
+                      fontWeight: FontWeight.w800,
+                      fontStyle: FontStyle.italic,
+                    ),
+                  ),
+                ),
+                arguments['restaurant']['socialMediaLinks'].length > 0 ?
+                IconButton(
+                    icon: Icon(
+                      socialMediaLinkType == "Instagram" ? FontAwesome.instagram:
+                      socialMediaLinkType == "Facebook" ? FontAwesome.facebook:
+                      FontAwesome.link,
+                      size: 23
+                    ),
+                    onPressed: () async {
+                      var url = arguments["restaurant"]["socialMediaLinks"][0];
+                      if (!await launchUrl(
+                        Uri.parse(url),
+                        mode: LaunchMode.externalApplication
+                      )) {
+                        ScaffoldMessenger.of(context).hideCurrentSnackBar();
+                        var snackBar = SnackBar(content: Text('Unable to redirect to social media page'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                      }
+                    }
+                ) : Offstage(),
+              ]
+          ),
+          SizedBox(
+            height: 20,
+          ),
+          arguments['restaurant']['images']['internalphotos'].length > 0 ?
+            Container(
+                child: CarouselSlider(
+                  options: CarouselOptions(),
+                  items: arguments['restaurant']['images']['internalphotos']
+                      .map<Widget>((item) => Container(
+                        child: Center(
+                            child:
+                            Image.network(item, fit: BoxFit.cover, width: 1000)),
+                      )).toList(),
+                )
+            ) : Offstage(),
+          SizedBox(
+            height: 20,
+          ),
+          Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Icon(
-                  Icons.drive_eta,
+                  FontAwesome.compass,
                   size: 40,
                   color: Colors.green,
                 ),
@@ -396,7 +463,7 @@ Widget _panelBody(
               Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: Icon(
-                  Icons.contacts,
+                  FontAwesome.address_book,
                   size: 40,
                   color: Colors.green,
                 ),
@@ -469,7 +536,7 @@ Widget _panelBody(
                 Padding(
                   padding: const EdgeInsets.only(left: 10.0),
                   child: Icon(
-                    Icons.launch,
+                    FontAwesome.globe,
                     size: 40,
                     color: Colors.green,
                   ),
