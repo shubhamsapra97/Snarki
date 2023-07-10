@@ -12,6 +12,7 @@ import '../view_model/auth_view_model.dart';
 import 'auth_view.dart';
 
 class LoginView extends HookWidget {
+class LoginView extends HookWidget {
   ValueNotifier<FormzStatus> _validationState = ValueNotifier(FormzStatus.pure);
   ValueNotifier<Password> _password = ValueNotifier(Password.pure());
   ValueNotifier<Email> _email = ValueNotifier(Email.pure());

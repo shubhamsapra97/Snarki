@@ -32,6 +32,11 @@ _$_Restaurant _$$_RestaurantFromJson(Map<String, dynamic> json) =>
           (json['cuisines'] as List<dynamic>).map((e) => e as String).toList(),
       location: Geometry.fromJson(json['location'] as Map<String, dynamic>),
       website: json['website'] as String,
+      socialMediaLinks: (json['socialMediaLinks'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+      images: json['images'] as Map<String, dynamic>,
+      priceRating: json['priceRating'] as String,
     );
 
 Map<String, dynamic> _$$_RestaurantToJson(_$_Restaurant instance) =>
@@ -47,6 +52,9 @@ Map<String, dynamic> _$$_RestaurantToJson(_$_Restaurant instance) =>
       'cuisines': instance.cuisines,
       'location': instance.location,
       'website': instance.website,
+      'socialMediaLinks': instance.socialMediaLinks,
+      'images': instance.images,
+      'priceRating': instance.priceRating,
     };
 
 _$_Geometry _$$_GeometryFromJson(Map<String, dynamic> json) => _$_Geometry(

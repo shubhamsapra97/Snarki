@@ -33,6 +33,7 @@ dependencies:
   responsive_builder: ^0.1.5
   responsive_framework: ^0.0.7
   flutter_rating_bar: ^4.0.0
+  carousel_slider: ^4.2.1
 
   # Other
   stacked: 2.2.5
