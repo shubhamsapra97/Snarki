@@ -368,7 +368,12 @@ Widget _panelBody(
                       .map<Widget>((item) => Container(
                         child: Center(
                             child:
-                            Image.network(item, fit: BoxFit.cover, width: 1000)),
+                            Image.network(
+                                'https://snarki-restaurant-images.s3.amazonaws.com${item}',
+                                fit: BoxFit.cover,
+                                width: MediaQuery.of(context).size.width * 0.8
+                            )
+                        ),
                       )).toList(),
                 )
             ) : Offstage(),

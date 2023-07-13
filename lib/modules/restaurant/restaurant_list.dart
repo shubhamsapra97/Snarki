@@ -38,46 +38,96 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
         elevation: 6.0,
         margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
         child: Container(
-          decoration: BoxDecoration(color: AppTheme.primaryBackgroundColor.withOpacity(0.8)),
-          child: ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
-              leading: Shimmer.fromColors(
-                baseColor: Colors.grey[500]!,
-                highlightColor: Colors.grey[300]!,
-                child: Container(
-                  height: 60.0,
-                  width: 60.0,
-                  color: AppTheme.primaryBackgroundColor,
-                )
-              ),
-              title: Shimmer.fromColors(
-                  baseColor: Colors.grey[500]!,
-                  highlightColor: Colors.grey[300]!,
-                  child: Container(
-                    height: 20.0,
-                    color: AppTheme.primaryBackgroundColor,
-                    margin: const EdgeInsets.only(bottom: 10.0),
-                  )
-              ),
-              subtitle: Shimmer.fromColors(
-                baseColor: Colors.grey[500]!,
-                highlightColor: Colors.grey[300]!,
-                  child: Container(
-                    height: 20.0,
-                    color: AppTheme.primaryBackgroundColor,
-                  ),
-              ),
-              trailing: Shimmer.fromColors(
-                baseColor: Colors.grey[500]!,
-                highlightColor: Colors.grey[300]!,
-                child: Container(
-                  height: 24,
-                  width: 24,
-                  color: AppTheme.primaryBackgroundColor,
+            decoration: BoxDecoration(color: AppTheme.primaryColorDark.withOpacity(0.3)),
+            child: Column(
+              children: [
+                ListTile(
+                    title: Shimmer.fromColors(
+                        baseColor: Colors.grey[500]!,
+                        highlightColor: Colors.grey[300]!,
+                        child: Container(
+                          height: 15.0,
+                          width: 60.0,
+                          color: AppTheme.primaryBackgroundColor,
+                        )
+                    ),
+                    subtitle: Shimmer.fromColors(
+                        baseColor: Colors.grey[500]!,
+                        highlightColor: Colors.grey[300]!,
+                        child: Container(
+                          height: 15.0,
+                          width: 60.0,
+                          color: AppTheme.primaryBackgroundColor,
+                        )
+                    ),
+                    trailing: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Shimmer.fromColors(
+                            baseColor: Colors.grey[500]!,
+                            highlightColor: Colors.grey[300]!,
+                            child: Container(
+                              height: 15.5,
+                              width: 25.0,
+                              color: AppTheme.primaryBackgroundColor,
+                              margin: const EdgeInsets.only(bottom: 4.0),
+                            )
+                        ),
+                        Shimmer.fromColors(
+                            baseColor: Colors.grey[500]!,
+                            highlightColor: Colors.grey[300]!,
+                            child: Container(
+                              height: 15.5,
+                              width: 25.0,
+                              color: AppTheme.primaryBackgroundColor,
+                            )
+                        ),
+                      ],
+                    )
                 ),
-              ),
-          ),
-        ),
+                Shimmer.fromColors(
+                    baseColor: Colors.grey[500]!,
+                    highlightColor: Colors.grey[300]!,
+                    child: Container(
+                      height: 200.0,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage("assets/details.jpg"),
+                            fit: BoxFit.fitWidth,
+                            colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.3), BlendMode.dstATop),
+                          )
+                      ),
+                      child: Image(
+                        image: AssetImage("assets/sidebarLogo.png"),
+                      ),
+                    ),
+                ),
+                OutlinedButton.icon(
+                    style: OutlinedButton.styleFrom(
+                      minimumSize: const Size.fromHeight(50),
+                      side: BorderSide(
+                        color: Colors.transparent,
+                      ),
+                    ),
+                    onPressed: () async {},
+                    icon: const Icon(
+                        Icons.navigate_next,
+                        color: Color(0xFF5d5b6a),
+                        size: 25
+                    ),
+                    label: const Text(
+                        'Restaurant Details',
+                        style: TextStyle(
+                            color: Color(0xFF5d5b6a),
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold
+                        )
+                    )
+                ),
+              ],
+            )
+        )
       );
     }
 
@@ -92,7 +142,7 @@ class _RestaurantsListViewState extends State<RestaurantsListView> {
                 title: Text(
                     restaurant['name'],
                     style: TextStyle(
-                        color: Color(0xFFcfb495),
+                        color: Color(0xFF000000),
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
                     ),
