@@ -473,7 +473,8 @@ Widget _panelBody(
                   color: Colors.green,
                 ),
               ),
-              Padding(
+              arguments["restaurant"]["contact"].length > 0 ?
+                Padding(
                 padding: const EdgeInsets.only(left: 10.0),
                 child: GestureDetector(
                   onTap: () {
@@ -500,7 +501,7 @@ Widget _panelBody(
                     ],
                   ),
                 ),
-              ),
+              ) : Offstage(),
             ],
           ),
           SizedBox(
